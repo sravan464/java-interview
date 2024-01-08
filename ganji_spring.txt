@@ -1,0 +1,694 @@
+*****************************************  Spring Framework INTERVIEW QUESTIONS ********************************************************
+What are the Spring modules you have worked?
+Spring Context – for dependency injection.
+Spring DAO – for database operations using DAO pattern
+Spring JDBC – for JDBC and DataSource support.
+Spring ORM – for ORM tools support such as Hibernate
+Spring Web Module – for creating web applications.
+Spring MVC – Model-View-Controller implementation for creating web applications, web services etc.
+Spring AOP – for aspect oriented programming.
+
+What is the advantage of Spring Framework?
+Dependency Injection or Inversion of Control to write components that are independent of each other, spring container takes care of wiring them together to achieve our work
+Support for transaction management, JDBC operations, File uploading, Exception Handling etc with very little configurations
+Spring MVC framework can be used to create web applications as well as restful web services capable of returning XML as well as JSON response
+Lightweight and very little overhead of using framework for our development
+
+What is Dependency Injection in Spring ?
+Dependency Injection means that container automatically injects the dependency of each class based on bean definition
+As container automatically injects dependency, developers do not need to be involved in the dependency using API, hence reducing the dependency on container API. 
+Developers only need to add the information that dependency is needed in bean definition file (repository management file)
+
+What is Inversion of Control(IOC) in Spring ?
+Design pattern to solve component dependency resolution, configuration and life-cycle.
+To perform a specific task ,instead of instantiating concrete class references in your class and depend on an abstraction ,IOC allow your concrete dependencies to be given to you.
+
+
+What is BeanFactory ?
+BeanFactory is a container which instantiates, configures, and manages a number of Spring beans.
+Bean Factory provides necessary configuration for bean creation,call methods related to bean lifecycle.
+
+What is ApplicationContext ?
+ApplicationContext provides all functions to create beans and call methods related to bean lifecycle and also provides additional functions such as
+Aspect Oriented Programming.Message Resource handling,WebApplicationContext integratio for use of web application.
+
+Difference between BeanFactory and ApplicationContext ?
+1.BeanFactory provides configuration for bean creation,call methods related to bean lifecycle, whereas ApplicationContext provides all functionalities of BeanFactory and also additional functions such as Aspect Oriented Programming.Message Resource handling,WebApplicationContext integration for use of web application
+
+2.ApplicationContext provides  I18N using ResourceBundle file,event handling whereas BeanFactory doesnot support.
+3.Application contexts provide a means for resolving text messages, including support for i18n of those messages.
+
+What are the types of ApplicationContext?
+Application Context can be loadable with bean definitions from files
+In the classpath or On a local filesystem or At an environment-relative resource path.
+
+FileSystemXmlApplicationContext   : 
+			ApplicationContext which reads xml configuration file located in file system 
+			ApplicationContext context = new FileSystemXmlApplicationContext("c:/beans.xml”);
+ClassPathXmlApplicationContext  : 
+		which reads xml configuration file located in file system in application classpath
+		ApplicationContext context = new ClassPathXmlApplicationContext(“com/rhpsoft/spring/beans.xml”); //$CLASSPATH/com/rhpsoft/spring/beans.xml
+
+XmlWebApplicationContext  :
+		which reads XML configuration file when developing web-based Spring application
+		
+
+
+What are different types of dependency injection in Spring ?
+Setter based dependency Injection
+Constructor based dependency Injection
+
+
+Difference between Setter Injection and Constructor Injection?
+Setter injection is used when number of dependencies is more where as Constructor Injection when Object must be created with all of its dependency.
+Setter injection helps in partial dependency where as Constructor injection forces Mandatory dependencies.
+Circular Dependencies are prevented in Setter Injection where as it occurs in Constructor Injection
+Constructor injection makes bean class object as immutable. But Setter injection makes bean class object as mutable(can change) 
+
+Difference between id and name in declaring Spring Bean?
+The only difference between an id and a name is that a name can contain multiple aliases separated by a comma, semicolon or whitespace, whereas an id must be a single value.
+Name allows many aliases.
+
+
+What are the different bean scopes in Spring ? Explain with an example ?
+SINGLETON  - Creates one bean object per bean definition in Spring IoC Container -This is default scope.
+PROTOTYPE  -Creates new bean object of same type every time the bean is requested by collaborating beans (beans which inject this bean as property)
+REQUEST  - Creates one bean object per http request when using WebApplication .
+SESSION -Creates one bean object per http session when using WebApplication.
+APPLICATION -This scopes a bean definition to a global HTTP session. Only valid in the context of a web-aware Spring ApplicationContext.
+
+What is default scope of Spring Bean?
+SINGLETON SCOPE - ONE BEAN per context
+
+Are Singleton beans thread safe in Spring Framework?
+Singleton beans are not thread safe.
+
+DESCRIBE SPRING BEAN LIFECYCLE?
+Few steps of Bean LifeCycle is
+1. Load Bean definitions either by parsing XML files or scanning package for Bean Annotations.
+2. Beans are instantiated and its dependencies injected.
+3. If  any PostProcessing needs be achieved,BeanFactoryPostProcessors are invoked.
+4. Now bean is ready to use.
+
+What is Bean Autowiring?
+process of injection spring bean dependencies while initializing it called Spring Bean Wiring
+
+Autowiring can be  achieved using @Autowired annotation with fields or methods for autowiring byType.
+
+What is bean ref-local in Spring?
+Bean ref-local is referring to a bean defined in same Bean definition file.
+
+What is lazy intialization or lazy loading of Spring Beans?
+lazy-intialization of Spring Beans means beans will be instantiated when it is first requested.
+The disadvantage of this lazy intialization is
+	-If bean definition or dependencies are not configured properly we will end up with run-time issues.
+
+We set lazy-init="true" property so that bean is lazy loaded	
+	
+ If you want lazy instantiation for all beans, define ‘default-lazy-init’ property.
+ <beans default-lazy-init="true">
+    <!-- no beans will be eagerly pre-instantiated -->
+</beans>
+
+
+How does you import external bean files,resource files in Spring?
+Using <import resource=""/> tag,we can import external bean files and resource files.
+Example:-
+<beans>
+    <import resource="services.xml"/>
+    <import resource="resources/messageSource.xml"/>
+    <import resource="/resources/themeSource.xml"/>
+</beans>
+
+What is circular dependency?
+when two different beans refer to bean each other as constructor argument in Spring Bean Definition,it arises a Circular Dependency situation.
+
+Example:-
+<bean id="beanFirst" class="test.BeanFirst">
+    <constructor-arg ref="beanSecond" />
+</bean>
+
+<bean id="beanSecond" class="test.BeanSecond">
+    <constructor-arg ref="beanFirst" />
+</bean>
+
+What is inner Spring Bean?
+<bean> in <property> or <constructor-arg> is used to define what is called 'inner bean'. 
+When defining inner bean, as id, name, scope value are ignored by container, the best way is not specifying id or name value. Inner bean is always anonymous and runs in prototype.
+
+
+What are the Collections available in Spring Framework?
+<list> , <set> , <map> and <props> is mapped in List, Set, Map and Properties type of Java Collection.
+
+
+***************************** Spring JDBC Questions: *****************************************************************
+Why do we use JDBC Template instead of Standard JDBC layer?
+Greatly simplifies the use of JDBC API.
+•Eliminates repetitive boilerplate code.
+•Handles the creation and release of resources, which helps you avoid common errors such as forgetting to close the connection.
+•Performs the basic tasks of the core JDBC workflow such as statement creation and execution, leaving application code to provide SQL and extract results.
+•Handles SQL Exceptions properly
+•Provides full access to JDBC Constructs
+
+What are the advantages of using Spring JDBCTemplate?
+-Compared to standard JDBC,Spring JDBCTemplate simplifies use of JDBC API by removing all boilerplate code.
+such as creation of database connections,Statements,executing Statements,release the connections etc., and allows developer to focus on SQL Query and Results.
+-Spring JDBCTemplate handles  SQLException properly with DataAccessException.
+
+What is the difference between SpringJDBC and Hibernate?
+In case of Spring JDBC Developer need to write his own SQL query and ResultSet whereas in Hibernate Once a proper ORM mapping is completed,depending on 
+database diaelect ,Hibernate creates the SQL Query and ResultSet.
+Spring JDBC does not have caching capability whereas a Hibernate has caching capabilities like session cache,query cache and we can also leverage third party cache like ehCache for L2 cache .
+Spring JDBC is useful for legacy database applications which cannot be mapped to ORM model and also where the project uses lot of stored procedures or complex joins
+where as Hibernate is useful for database applications which are mapped using ORM Model.
+
+
+What are the three callback interfaces which gets data in SpringJDBC?
+RowMapper
+RowCallBackHandler
+ResultSetExtractor
+
+What is RowMapper?
+RowMapper is an interface where each row of resultset data is mapped to a Domain Object and return it.
+
+What is RowCallBackHandler?
+Spring provides a simple RowCallbackHandlerinterface when there is no return object.
+•Streaming rows to a file
+•Filtering rows before adding to a Collection
+
+What is ResultSetExtractor in Spring JDBC?
+Spring provides a ResultSetExtractor interface for mapping a entire ResultSet to a Domain Object.
+
+What is difference between	 RowMapper and RowCallBackHandler?
+Both RowMapper and RowCallBackHandler process each row of data in the ResultSet. 
+RowMapper's mapRow method process the row and returns a Domain Object whereas
+RowCallBackHandler's processRow(ResultSet rs) does not return object which is having the result.
+
+When to use Row Mapper,RowCallBackHandler and ResultSetExtractor?
+RowMapper is best choice if you need to map each row of resultset data to a Domain Object and return it. **** Primary used for retrieving resultset data ****
+RowCallBackHandler is best choice if you need to update or delete resultset data and also track the number of rows .
+ResultSetExtractor is best choice if you need map multiple rows of resultset data to DomainObject or process the data offline.
+
+
+What is the exception thrown by JDBCTemplate?What is the root exception Spring JDBC throws?
+DataAccessException is the root exception through by Spring JDBC.
+
+How does you retrieve data using JDBCTemplate explain the steps? or How does you consume a JDBCTemplate using Spring Framework?
+1.Create a DataSource bean with appropriate database.
+2.Inject the datasource bean to JDBCTemplate.
+3.Inject the jdbcTemplateBean to DAO Class
+4.Create getters /setters for jdbcTemplate Bean if Sping 2.5 or get jdbcTemplateBean autowired .
+5.Invoke the appropriate query method.
+
+
+What is ResultSetExtractor in Spring JDBC?
+Spring provides a ResultSetExtractorinterface for mapping a entire ResultSet to an Object.
+
+
+How to call a Stored Procedure in Spring JDBCTemplate?
+There are multiple ways to call a StoredProcedure in Spring JDBC 
+We can use SimpleJdbcCall and pass on jdbcTemplate and invoke StoredProcedure 
+
+First We autowired Datasource  using    
+	setDataSource(DataSource dataSource) {
+       this.simpleJdbcCall = new SimpleJdbcCall(dataSource)
+Second we call a dao method where set procedure to the simplejdbcall using
+		simplejdbcall.withProcedureName(--procedureName--)
+Third we create a MapSqlParameterSource and set all in and out parameters.
+SqlParameterSource in = new MapSqlParameterSource()
+        .addValue("in_id", id); 
+Running   simpleJdbcCall.execute(in) will result in Map<String,Object> which gives output.
+
+2.We can also extend Spring StoredProcedure abstract class and initialize with jdbcTemplate and procedure
+
+
+
+*******************************************SPRING JUNIT TESTING **************************************************************
+How did you test Spring code?
+We wrote JUnit test cases for Spring 
+Steps to setup Spring Testing using JUnit?
+
+-Need Spring-test and JUnit4 jar file in classpath.We added as maven dependencies
+-For the Spring JUnit Test class, we annotate with 	
+		@RunWith(SpringJUnit4ClassRunner.class)
+		@ContextConfiguration("classpath:bookstore-spring-config.xml")  -this gets the spring-beans xml file for Junit testing
+
+Sample Code:
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:spring-config.xml")
+public class SpringAppTests {
+	@Autowired
+	private HelloService helloService;
+
+	@Test
+	public void testSayHello() {
+	Assert.assertEquals("Hello world!", helloService.sayHello());
+	}
+
+}
+
+If you want to read the Spring xml file using filepath use this line @ContextConfiguration("file:src/main/resources/spring-config.xml")
+
+
+
+**************************** Spring Hibernate Integration Questions ***************************************************
+How will you integrate Spring -Hibernate?
+1.First we define the datasource bean using jndi .
+2.We then define the hibernate properties bean using PropertiesFactoryBean class and provide all required information like hibernate.dialect,show sql etc.,
+3.Define a HibernateSessionFactoryBean using LocalSessionFactoryBean class and inject datasource bean,hibernate properties bean and mapping resources as a list.
+4.We can add hibernateSessionFactoryBean to DAO classes where we need to invoke and call the appropriate hibernate call methods.
+
+
+
+**************************** Spring AOP Questions ***************************************************
+Spring AOP Features:
+	-Pure Java based implementation
+	-no need for a special compilation process.
+	-Supports only method execution join points
+	-Only run-time weaving available
+
+
+What is Aspect Oriented Programming?
+Aspect-Oriented Programming is a way of modularizing crosscutting concerns much like object-oriented programming is a way of modularizing common concerns.
+
+Have you ever implemented Aspect Oriented Programming in any of your projects? If so how?
+Yes.We have used AOP for Transactions in one of our projects.
+
+What is Cross-Cutting Concerns?
+Common functionality which is used in many places of application.
+Example: Logging,Tracing,Transactions etc.,
+
+What is Aspect in Spring AOP? Explain with an example ?
+-A code unit that encapsulates pointcuts,advice and attributes
+
+What is Advice?
+-Implementation logic of Cross-Cutting concerns.
+
+What is Pointcut in Spring AOP ?
+-Set of triggers or entry points where Advice will be executed.
+
+What is Joinpoint?
+-Is a place in the execution path of the program where an Aspects can be plugged in.
+-Typically the joinpoints will be before businesslogic starts or after process completes or when exception is thrown.
+
+What is weaving in Spring AOP?
+-Dynamically construct code with advice.
+
+
+How many types of advice are there in AOP?
+Before Advice
+After Returning Advice
+After throwing Advice
+After finally Advice
+Around Advice
+
+Explain step by step how to implement AOP in Spring?
+1.Define the Aspect bean.
+2.Define the pointcut and provide the execution expression which defines methods or specific method in Class
+3.Define advice and which method to invoke for the pointcut
+
+
+Explain step by step how to implement Transactions in Spring?
+1.Define Datasource either using jee:jndi lookup or using spring bean .
+2.Define TransactionManager Bean and inject the datasource.
+3.Create a Advice and reference the TransactionManager bean so that we know which database we are applying Transaction Management
+4.Define Advice Attributes when the  advice will be applied  ie., for a given method name and for which level of ISOLATION and for what exception to roll-back for
+5.Define Pointcut using AOP expression language which defines which classes or methods of classes the pointcut can refer to  
+6.Tag the Pointcut to Advice so that the Advice applies for the defined class methods.
+Then at run-time ,AOP weaver will apply the Transactions for the methods 
+
+
+
+******************************  Spring MVC Questions ***********************************************
+Difference between SpringMVC and Struts Framework?
+1.Struts 2 Actions are newly instantiated every time a request is made, whereas in Spring MVC the default behavior is to act as a Singleton
+2.Struts 2 require struts.xml file to configure the framework where as Spring MVC requires Dispatcher-servlet.xml to be work.
+3.SpringMVC integrates very well with Spring and require no additional configuration where Struts require either Struts-Spring plugin and couple of configuraiton lines  to invoke Spring Bean.
+4.SpringMVC uses JSR303-Hibernate validation framework or Spring Validator interface whereas Struts use XML based validation and validate method for validations
+5.SpringMVC has REST based URL support  whereas Struts does not
+
+
+Describe the lifecycle of Spring MVC Framework?
+As soon as a Spring MVC url is hit in browser,it goes through a series of steps in Spring MVC Lifecycle.
+
+1.First DispatcherServlet intercepts the url based on the ServletMapping pattern .
+2.DispatcherServlet then delegates the URL to HandlerMapping which maps the url request to appropriate Controller and delegate the Control to the Controller.
+3.Then the Controller method is invoked depending on the REST URL and the method will interact with required business or service layers and returns a ModelAndView or Model with a View.
+4.The Dispatcher Servlet then delegates the View request to ViewResolver .ViewResolver process the view request and get the appropriate View whether a JSP or JSON response etc., .
+5.The View then rendered and output is sent back to browser.
+
+
+Describe the flow of Spring MVC?
+The DispatcherServlet configured in web.xml file receives the request.
+The DispatcherServlet finds the appropriate Controller with the help of HandlerMapping and then invokes associated Controller.
+Then the Controller executes the logic business logic (if written by the programmer) and then returns ModeAndView object to the DispatcherServlet.
+The DispatcherServlet determines the view from the ModelAndView object using ViewResolver.
+Then the DispatcherServlet passes the model object to the View.
+ The View is rendered and the Dispatcher Servlet sends the output to the Servlet container. Finally Servlet Container sends the result back to the user.
+  using servletmapping in DispatcherServlet
+ 
+ http://domainname:/projectnmae/springmapping/controller
+
+
+Steps to setup Spring MVC Application?
+-Create a Maven webapp project.
+-Setup required Spring mvc related artifacts in pom.xml file
+-Add DispatcherServlet,Servlet mapping ,SpringContextLoadListener to web.xml
+-Add mvc-dispatchservlet beans .xml and applicationContext.xml to WEB-INF folder.
+-Add these two entries (mvc-dispatch-servlet beans .xml and applicationContext.xml ) to contextConfigLocation param in web.xml
+-Add <mvc-annotation-driven> and <context-component-scan> package to map to MVC Controller package folder so that the appropriate Controllers will be scanned on startup.
+-Add InternalResourceViewResolver and map the jsp's folder.
+-Create a java class LoginController and add annotate with @Controller and @RequestMapping to enable as SpringMVC Controller.
+-Write methods login() and add @RequestMapping (/login) to add suburi path .
+
+hit the url in this format:
+
+http://hostname:portnumber/projectName/mvcpattern/ControllerMapping/suburimapping
+
+
+How to perform validation using Spring MVC?
+We can use either JSR303 Hibernate Validation or Spring Validator class implementation.
+If we go with JSR303 implementaiton,we require hibernate-validation jar files .
+Create Model objects and add annotations @NotBlank,@Range etc., depending on the requirement for each field.
+Create messages.properties and add the required errors with format @Annotation.modelobjectname.fieldname=error value.
+add ResourceBundleMessageResource bean to mvc-dispatcher-servlet.xml and add basename to map to messages.If needed add locale property to UTF-8.
+
+In MVC methods ,we add to method @Valid annotation as method parameter and BindingResult .
+In JSP we use spring form tag and add the commandName to match the object name in @Valid annotation for method we invoke.
+When form is submitted,the Validation executes and adds errors to BindingResult .
+if bindingResult has any errors we stop processing further and throw errors either at field level or consolidated errors on top of the form.
+
+
+How does you implement Spring Validator to a Spring MVC Controller?
+1.Create a custom validator class and implement Validator interface and add the two unimplemented methods supports and validate.
+2.Add validation code to validate method
+3.Define the Custom Validator as a Bean using @Component and add the CustomValidator class package to context-component-scan .
+4.In the SpringMVC controller use @autowired and invoke the CustomValidator Bean.
+
+What is Command object in Spring MVC?
+Command Object - a JavaBean which will be populated with the data from your forms
+
+What is front controller in Spring MVC?
+A  "front controller" is defined as “a controller which handles all requests for a Web Application.
+DispatcherServlet (actually a servlet) is the front controller in Spring MVC that intercepts every request and then dispatches/forwards requests to an appropriate controller.
+We configure the DispatcherServlet in web.xml
+
+What is HandlerMapping?
+HandlerMapping is an interface implemented by HandlerMapping clsses that maps the incoming request and appropriate controllers.
+
+What is Controller ?
+We can say Controllers are Java Classes annotated with @Controller that are being called by DispatcherServlet for doing any kind of Business Logic.
+
+
+What is Model in Spring MVC?
+Model is a Map object which gets automatically created for every request and we can add the attributes to Model so that 
+the attributes and the values are available in application pageContext.
+
+
+What is ModelAndView in Spring MVC?
+ModelAndView is a Model object along with View information.
+Model which gets automatically created for every request and we can add the attributes to Model so that 
+the attributes and the values are available in application pageContext.
+
+Name a few Spring MVC Annotations you have used in your projects?
+@Controller :  -Used to define a Class as Spring MVC Bean.
+@RequestMapping : - Used to define URLMapping for a class or at method level to so that we can construct a REST URL for the Spring MVC Application.
+@PathVariable :- Used to allow the request variables to be defined as part of Path.
+@RequestParam :  - Used to allow the request paramates as query parameters in name=value form.
+@SessionAttributes : Used to store session variables.
+@DateTimeFormat :  Used to allow conversion of a string to date-class type.
+									Allowed formats java.util.Date,java.sql.Date,Calendar etc.,
+@ResponseBody: 
+@RequestBody :
+							
+									
+How does you invoke a Spring Bean in a Spring MVC Controller?
+Using @Autowired Annotation we can inject another bean in SpringMVC controller and use it seemlessly
+
+
+How to prevent Double submission using Spring MVC?
+
+http://www.javacodebook.com/2013/08/20/post-redirect-get-pattern-in-spring-mvc/
+
+http://viralpatel.net/blogs/spring-mvc-flash-attribute-example/
+
+How to prevent Double Submit when you do Form Submit?
+Double form submission problem handling needs to be done both at client side and server side.
+
+1.In client side, we can disable the submit button once we click submit using Javascript to prevent double submission.
+
+2.If it is a Struts based application,We can use TOKEN interceptor or TOKENSESSION interceptor with any action which can handle multiple form submission problem.If token interceptor identifies the request as duplicate, then it returns the result invalid.token, that’s why we have a result configured for this.
+
+3.If it is a Spring MVC based application ,spring mvc will resolve both mentioned issues using Post Redirect Get pattern.we can flash attributes in order to  resolve issue of duplicate form submission.We can put attributes into flashmap that you want to get into success view page & get that values into success page.
+
+Spring MVC -Session
+
+@SessionAttributes("personObj")  - Add at Class level
+
+in method use modelAndView.addObject("personObj", person);
+
+public ModelAndView rememberThought(@RequestParam String thoughtParam) {
+
+public String processSubmit(@ModelAttribute Pet pet) {
+
+InternalResourceViewResolver
+
+redirect:files/{path}  - Redirect controller response to back to browser
+
+forward:prefix -   Similar to requestdispatcher.forward()
+
+
+@ExceptionHandler  - handles exceptions
+Our methods throws Exceptions
+We wrote a Custom Method which has @ExceptinHandler Annotation and we mention the exceptions it catches.
+We return error jsp page and set error code and error message
+
+Sample Code:
+@Controller
+public class MainController {
+ 
+	@RequestMapping(value = "/{type:.+}", method = RequestMethod.GET)
+	public ModelAndView getPages(@PathVariable("type") String type)
+		throws Exception {
+ 
+	  if ("error".equals(type)) {
+		// go handleCustomException
+		throw new CustomGenericException("E888", "This is custom message");
+	  } 
+ 
+	}
+ 
+	@ExceptionHandler(CustomGenericException.class)
+	public ModelAndView handleCustomException(CustomGenericException ex) {
+ 
+		ModelAndView model = new ModelAndView("error/generic_error");
+		model.addObject("errCode", ex.getErrCode());
+		model.addObject("errMsg", ex.getErrMsg());
+ 
+		return model;
+ 
+	}
+ 
+}
+
+****************************************************SPRING ANNOTATIONS INTERVIEW QUESTIONS *****************
+Spring Annotations:
+@Component  :generic stereotype for any Spring-managed component .It can make any class a Spring Bean
+
+Example:-
+@Component
+public class BookClass {
+
+}
+
+@Component("bookBean")
+public class BookClass {
+
+}
+
+@Service :Annotate all your service classes with @Service. All your business logic should be in Service classes.
+Example:-
+@Service
+public class BookStoreServiceImpl implements BookService {
+	public List<Books> getbooksList() throws BookException{
+	
+		return booksList;
+	}
+...
+}
+
+@Repository:Annotate all your DAO classes with @Repository. All your database access logic should be in DAO classes.
+Example:-
+@Repository
+public class BookStoreDAOImpl implements BookDAO {
+	public List<Books> getbooksList() throws BookDAOException{
+	
+		return booksList;
+	}
+...
+}
+
+@Controller:Annotate your controller classes with @Controller.This pertains to SpringMVC
+Example:-
+
+@Service
+public class BookStoreServiceImpl implements BookService {
+	
+	@Autowired
+    private BookDAO bookDAO; 
+	
+	@Transactional  
+	public int createBook(Books b) throws BookException{
+		int  createCount=bookDAO. createBook(Books b);
+		return createCount;
+	}
+...
+}
+
+@Controller
+public class BookStoreController {
+
+	public List<Books> getbooksList(Model m) {
+		
+		return booksList;
+	}
+...
+}
+
+@Autowired:This Annotation lets Spring auto-wire other beans into your classes using @Autowired annotation. 
+Example:-
+@Service
+public class BookStoreServiceImpl implements BookService {
+	
+	@Autowired
+    private BookDAO bookDAO; 
+  
+	public List<Books> getbooksList() throws BookException{
+		List<Books> booksList=bookDAO. getbooksList();
+		return booksList;
+	}
+...
+}
+
+
+@Scope :Defines the scope of Spring Bean.
+Example:-
+
+@Component("bookBean")
+@Scope("prototype")
+public class BookClass {
+
+}
+
+
+@Qualifier: This annotation tells Spring about which bean should autowired when you get NoSuchBeanDefinitionException .
+ie., if we have two beans defined for same Class say  beanA and beanB and Spring throws NoSuchBeanDefinitionException exception
+as Spring expects one bean but it found two beans.
+public class Customer {
+    
+    
+	@Autowired
+	@Qualifier("personA")
+	private Person person;
+	//...
+}
+
+More Details: Example:-  http://www.mkyong.com/spring/spring-autowiring-qualifier-example/
+
+@Required:This annotation applies to bean property setter methods and it indicates that the affected bean property must be populated in XML configuration file at configuration time otherwise the container throws a BeanInitializationException exception.
+
+Example:-
+Public class Person{
+
+	private String name;
+	private int age;
+	
+	@Required
+   public void setAge(int age) {
+      this.age = age;
+   }
+   public int getAge() {
+      return age;
+   }
+
+   @Required
+   public void setName(String name) {
+      this.name = name;
+   }
+   public String getName() {
+      return name;
+   }
+
+}
+
+@Value : This is used to import a “List” from a properties file
+Example:-  http://www.mkyong.com/spring/spring-value-import-a-list-from-properties-file/
+
+@Lazy : This annotation is equivalent to lazy-init property in bean where the bean is not intialized on startup .The bean gets invoked
+only when someone invokes the bean.
+
+@Transactional : Configure your transactions with @Transactional spring annotation .
+Note that you need to add  <tx:annotation-driven/> element in  spring's configuration file for @Transactional annotation to be loaded.
+
+
+What is the difference between @Inject and @Autowired?
+Both @Autowired and @Inject behave identically with a few differences.
+1.@Autowired has default attribute "required" whereas @Inject has no "required" attribute.
+2.Default scope for @Autowired beans is Singleton whereas using JSR 330 @Inject annotation it is like Spring's prototype.
+
+
+How to look for Spring Beans with Annotations?
+In  Spring Beans.xml file we need to have  two entries.
+<context:annotation-config/> //This looks for annotations on beans
+<context:component-scan base-package="package name"/> // This scan stereotyped classes and registers the bean definitions
+
+If we need to include  few packages
+	<context:include-filter type="annotation" expression=" "/>
+	<context:exclude-filter type="regex"  expression=".* "/>
+
+ @Component | generic stereotype for any Spring-managed component |
+| @Repository| stereotype for persistence layer                    |
+| @Service   | stereotype for service layer                        |
+| @Controller| stereotype for presentation layer (spring-mvc) 
+
+
+************************************************************************************************************************************************
+
+
+******************************  Spring JUNIT Interview Questions ********************************************************
+
+Steps to setup Spring Testing using JUnit?
+-Need Spring-test and JUnit4 jar file in classpath.We added as maven dependencies
+-For the Spring JUnit Test class, we annotate with 	
+		@RunWith(SpringJUnit4ClassRunner.class)
+		@ContextConfiguration("classpath:bookstore-spring-config.xml")  -this gets the spring-beans xml file for Junit testing
+
+Sample Code:
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:spring-config.xml")
+public class SpringAppTests {
+	@Autowired
+	private HelloService helloService;
+
+	@Test
+	public void testSayHello() {
+	Assert.assertEquals("Hello world!", helloService.sayHello());
+	}
+
+}
+
+
+
+
+*****************************************************************************************************************************
+Scoped Proxy:
+https://whyjava.wordpress.com/2010/10/30/spring-scoped-proxy-beans-an-alternative-to-method-injection/
+
+http://shekhargulati.com/2010/10/30/spring-scoped-proxy-beans-an-alternative-to-method-injection/
+
+
+
+Spring MVC Angular JS:
+http://websystique.com/springmvc/spring-mvc-4-angularjs-example/
+
+

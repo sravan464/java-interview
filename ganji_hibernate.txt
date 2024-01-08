@@ -1,0 +1,334 @@
+*************************************************HIBERNATE INTERVIEW QUESTIONS *******************************************************
+What are the advantages of using Hibernate Framework?
+-Helps in generating 95% of JDBC code based on Database and Helps in reduction of development time.
+-Easy to change the database with minimal effort to code.
+-Any changes to Database tables require change to annotations or hbm files .
+-Minimize Database access with fetching strategies
+
+
+What is SessionFactory?
+-A thread-safe factory for Hibernate Sessions which gives a session object.
+-Single instance per datasource.
+-Caches SQL Statements and Mapping metadata .
+
+What is a session?
+-Session is a Single threaded  short-lived object representing conversation between application and Database.
+-Session is opened by SessionFactory
+-Session is not thread-safe.
+-Session holds first -level cache of persistent objects.
+
+What is difference between openSession and getCurrentSession?
+-openSession always creates a new Session whereas getCurrentSession will return existing session object if one is already available in use
+if not, creates a new Session .
+
+Explain the lifecycle of Hibernate?
+
+What is a Transient object?
+-An object is transient if it has just been instantiated using the new operator, and it is not associated with a Hibernate Session.
+-Transient Object has no persistent representation in the database and no identifier value has been assigned.
+-We have to call save() or saveOrUpdate() to make it a Persistent object.
+
+
+What is Persistent object?
+-A Persistent Object has a representation in the database and an identifier value(Primary Key).
+-Persistent object might just have been saved or loaded, and its scope is for the Session it is associated with.
+-Hibernate monitors for any changes to Persistent Object and will synchronize with the database when the unit of work completes
+
+What is Detached object?
+-A Detached object is an object that has been persistent object, but its Session has been closed.
+-A Detached object can be reattached to a new Session and can persist all the modifications again.
+-Detached Object can be re-associated with session using session.lock().
+-
+
+What is the difference between save() and persist()  methods?
+-save() method can used outside Transaction boundary but it saves only the primary entity and doesnot save all child entities unless we trigger a call to flush() method whereas -persists() method can be used only within Transaction boundary so it’s takes care of any cascaded objects and we donot need an explicit call to flush() method.
+
+What is the difference between save() and saveOrUpdate() methods?
+-save() method will result in insert queries based on data whereas saveOrUpdate() will result in insert queries or update queries based on the provided data. If the data is present in the database, update query is executed .
+
+What is the difference between saveOrUpdate() and merge() methods?
+ saveOrUpdate() will result in insert queries or update queries based on the provided data. If the data is present in the database, update query is executed but if a detached object is re-associated to session,we get "NonUniqueObjectException" from Hibernate.
+ merge() method will force Hibernate to copy any changes from other detached instances onto the instance you want to save, and thus merges all the changes in memory before the save. 
+ 
+
+When do you get "NonUniqueObjectException" in Hibernate?   
+"NonUniqueObjectException" occurs if a detached object is modified and is associated to session and we are trying to save the associated object.
+Reason:
+once the session is closed,the persistent object we are working with become detached object and hibernate does not track any changes to the object but the object will be still in application memory.Now we modify the object and want to save it again.So we re-associate object to Hibernate session.Hibernate will check to see if there are any other copies of the same object. If it finds any, it has to tell us it doesn’t know what the “real” copy is any more. It conveys us using "NonUniqueObjectException".
+
+What does session.lock() method do in Hibernate?
+-Session.lock() method will re-associate a detached object to session .
+-Reattach an object detached earlier.
+This method doesnot check for any data synchorization in database while reattaching object.
+
+What does session.refresh() method do in Hibernate?
+Sometimes the Persistent object data we retrieved from Session may be stale due to manipulation of data external to Hibernate by either DBA or a Developer
+running SQL.Session.refresh() method will  re-populate the Persistent object with latest data available in database.
+
+Can you tell us the execution order of SQL Statements in Hibernate when we call save or flush?
+1. all entity insertions, in the same order the corresponding objects were saved using Session.save() 
+2. all entity updates 
+3. all collection deletions 
+4. all collection element deletions, updates and insertions 
+5. all collection insertions 
+6. all entity deletions, in the same order the corresponding objects were deleted using Session.delete()
+
+What is difference between Hibernate Session get() and load() method?
+-Hibernate get() loads the data as soon as it’s called whereas load() returns a proxy object and loads data only when it’s actually required, so load() is better because it support lazy loading.
+-Hibernate load() throws "ObjectNotFoundException" if no row found whereas get() throws null.
+
+
+What will happen if we don’t have no-args constructor in Hibernate POJO?
+Hibernate will fail to instantiate it and you will get HibernateException
+
+What are the collection types in Hibernate?What are Hibernate Collections?Give a few examples?
+Hibernate has five Collection Types and used in One-to-Many mapping.
+1.List  
+2.Set
+3.Bag
+4.Map
+5.Array
+
+List & Set are most widely used Collections in Hibernate.
+
+What is the difference between List and Bag in Hibernate Collections?
+
+What is difference between sorted collection and ordered collection, which one is better?
+
+How many types of relationships are there in Hibernate?
+-One-to-One Mapping using Primary Key
+-One-to-One Mapping using Foriegn Key
+-One-to-Many Mapping
+-Many-to-Many Mapping
+
+What is difference between Uni-Directional and Bi-Directional Mapping?
+In Uni-directional is a relation where one side does not know about the relationship whereas In a bi-directional relation both sides know about the other side.
+
+
+What is "inverse" property in Hibernate and where do we use in Hibernate?
+
+
+What is "cascade" property in Hibernate and where do we use in Hibernate?
+
+
+
+Does Hibernate returns java.sql.Date or java.util.Date when retrieving data from database?
+Using annotation @Type: - java.sql.Date will be returned
+
+@Column
+@Type(type="date")
+private Date startDate;
+Using annotation @Temporal(TemporalType.DATE) - java.sql.Date will be returned
+
+@Temporal(TemporalType.DATE)
+@Column(name=”CREATION_DATE”)
+private Date startDate;
+By modifying setter (deep copy) - java.util.Date will be returned
+
+public void setStartDate(Date startDate) {
+    if (startDate != null) {
+        this.startDate = new Date(startDate.getTime());
+    } else {
+        this.startDate = null;
+    }
+}
+
+
+What are derived properties in Hibernate?
+How do you define multiple primary keys in hibernate mapping?
+
+Hibernate properties questions:
+How to enable sql generated by Hibernate in log file?
+How to format the sql generated by Hibernate in log file?
+How does you control caching for Hibernate?
+How do you turn off unwanted logs for Hibernate in log4j xml?
+What are the common properties set in Hibernate.cfg.xml?
+What is the property used to control the number of SQLs to be handled as batch when Hibernate executes batch handling  on SQL statements?
+
+HQL Interview Questions:
+What is NAMED Query in Hibernate and how is it used?
+How do we invoke a stored procedure using Hibernate?
+http://www.mkyong.com/hibernate/how-to-call-store-procedure-in-hibernate/
+Why do we use hibernateTemplate?any advantages?
+What is default transaction factory in Hibernate?
+With hibernate 3.2, default transaction factory is JDBCTransactionFactory.
+What are the different fetching strategies in Hibernate?
+1. Join Fetching
+2. Batch Fetching
+3. Select Fetching
+4. Sub-select Fetching
+
+
+Hibernate Caching Questions:
+How to disable second level cache in Hibernate?
+Hibernate second level cache can be disabled using any of the following ways:
+a. By setting use_second_level_cache as false.
+b. By using CACHEMODE.IGNORE
+c. Using cache provider as org.hibernate.cache.NoCacheProvider
+
+How many types of caching are available in Hibernate?
+
+Hibernate uses different types of caches. Each type of cache is used for different purposes. Let us first have a look at this cache types.
+The first cache type is the session cache. The session cache caches object within the current session.
+The second cache type is the query Cache. The query cache is responsible for caching queries and their results.
+The third cache type is the second level cache. The second level cache is responsible for caching objects across sessions.
+
+
+Hibernate uses two different caches for objects: first-level cache and second-level cache..
+First-level cache always Associates with the Session object. Hibernate uses this cache by default.
+
+
+Hibernate supports four open-source cache implementations
+EHCache (Easy Hibernate Cache)
+OSCache (Open Symphony Cache)
+Swarm Cache
+JBoss Tree Cache
+
+PS:Most of the companies use EHCache or Terracotta EhCache
+
+Refer:http://www.javabeat.net/2007/10/introduction-to-hibernate-caching/  - Good URL for Hibernate Caching
+
+Spring -Hibernate Integration Questions:
+
+How will you integrate Spring -Hibernate?
+1.Define the datasource bean using jndi
+2.Define the hibernate properties bean and provide all informaiton like diaelect,show sql etc.,
+3.Define a HibernateSessionFactoryBean and inject datasource bean,hibernate properties bean and mapping resources as a list
+4.Consume hibernateSessionFactoryBean and invoke hibernate methods.
+
+
+Generic  Questions:
+What are the benefits of using Hibernate Template?
+Following are some key benefits of using Hibernate template:
+a. Session closing is automated.
+b. Interaction with hibernate session is simplified.
+c. Exception handling is automated.
+
+
+
+
+What are the general benefits of using Hibernate over JDBC?
+What are the benefits of using Hibernate over Spring JDBC Template?
+
+
+What is Object Relational Mapping?
+ORM (Object Relational Mapping) is the fundamental concept of Hibernate framework which maps database tables with Java Objects and 
+then provides various API’s to perform different types of operations on the data tables.
+
+
+
+What are the types of Object Relational Mapping levels  in Hibernate?
+-Pure Relational
+-Light Object Mapping
+-Medium Object Mapping
+-Full Object Mapping
+
+The four levels of ORM states how your application interact with database, about the design of application implementation to interact with database.
+ Pure relational is about working directly using SQL relational model, 
+ other models move towards more objects based design and abstraction up to full object mapping, 
+ where it is pure ORM using all inheritence, polymorphism and abstraction based object model, mapped completely with database tables using mappings etc. 
+
+
+What is Light Object Mapping?
+The entities are represented as classes that are mapped manually to the relational tables.
+
+http://www.javabeat.net/2009/02/hibernate-interview-questions/ - Good Link which provides the ORM Levels in Hibernate
+
+
+What are the three inheritance models in Hibernate?
+Hibernate has following three inheritance models:
+a. Tables Per Concrete Class
+b. Table per class hierarchy
+c. Table per sub-class
+
+How can you make classes as immutable?(ie., doesnot allow the structure of class mapped to be unchanged)
+If we don’t want an application to update or delete objects of a class in hibernate, we can make the class as immutable by setting mutable=false
+
+
+What’s general hibernate flow using RDBMS?
+General hibernate flow involving RDBMS is as follows:
+a. Load configuration file and create object of configuration class.
+b. Using configuration object, create sessionFactory object.
+c. From sessionFactory, get one session.
+d. Create HQL query.
+e. Execute HQL query and get the results. Results will be in the form of a list.
+
+
+Do we need to have .hbm.xml as extension for Hibernate Mapping files to work?
+No.We can have any xml extension.but the files need to be placed in Hibernate.cfg.xml file.
+
+
+
+What is the difference between Sorted and Ordered Collection in Hibernate?
+A Sorted Collection is sorting a collection by utilizing the sorting feature provided by Java Collections Framework.
+Sorting occurs in JVM while hibernate is running
+
+Ordered Collection is sorting a collection by specifying the  order-by-clause for sorting this collection when retrieval.
+ 
+Sorting Collection is more efficient if Collection is not large and Ordered Collection is more efficient if Collection is large.
+
+
+What is Hibernate Proxy?
+
+
+What is lazy fetching in Hibernate?
+
+What is callback interfaces in Hibernate?
+Callback interfaces of Hibernate are useful in recieving event notifications from objects.
+Ex:When an object is loaded or deleted,an event is generated and notification is sent using callback interfaces.
+
+Different types of Caching strategies?
+Read-Only : 
+Read/Write :
+Nonstrict  read/write :
+Transactional :
+
+
+Hibernate Mapping Questions:
+What is the use of <id> generator tag in hibernate mapping?
+How to enable a sequence for primary key?
+What does happen if you set <id> generator class is set to "native"?
+How do you define multiple primary keys in hibernate mapping?
+What happens when <id> generator class is set to "increment"?
+When do we use <id> generator class "assigned" ?
+
+What is the difference between session.load() and session.get()? ***** V.Important and Common question***
+What are the best pratices to define Hibernate Persistent Classes?
+What are derived properties in Hibernate?
+What are the different types of mappings in Hibernate?
+What is difference between Uni-Directional and Bi-Directional Mapping?
+What are Hibernate Collections?Give a few examples?
+What is the difference between List and Bag in Hibernate Collections?
+What are the types of Persistence mappings in Hibernate?
+1.Table per class Hierarchy
+2.Table per subclass
+3.Table per concrete class
+
+
+Hibernate Question Links:
+http://www.gointerviews.com/hibernate-interview-questions/
+http://www.javalobby.org/java/forums/t19807.html - Hibernate Statistics
+
+http://www.javatechinfo.com/2013/01/top-50-important-hibernate-interview.html - Good Link for Hibernate Interview Questions
+
+http://www.stevideter.com/2008/12/07/saveorupdate-versus-merge-in-hibernate/
+
+http://apmblog.dynatrace.com/2009/02/16/understanding-caching-in-hibernate-part-one-the-session-cache/
+
+
+http://vladmihalcea.com/tutorials/hibernate/
+
+
+http://www.journaldev.com/2980/hibernate-ehcache-second-level-caching-example-tutorial
+
+
+
+Hibernate uses different types of caches. Each type of cache is used for different purposes. Let us first have a look at this cache types.
+The first cache type is the session cache. The session cache caches object within the current session.
+The second cache type is the query Cache. The query cache is responsible for caching queries and their results.
+The third cache type is the second level cache. The second level cache is responsible for caching objects across sessions.
+
+
+
+
+

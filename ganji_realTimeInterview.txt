@@ -1,0 +1,125 @@
+Production Support :
+Incident Management Team will call on-call person.We have on-call rotation every 5 weeks.
+We join the bridge line and check what is the issue.
+The issues can be numerous.
+1.First I check using test client whether service is working or not. 
+		a.)If Service is not working, I will check in application  server admin console ,if any manage servers are in warning state
+		    and if there are any stuck threads.
+		    If there are stuck threads,we call oncall weblogic admin and request to take thread dump for analysis and do a rolling restart of the manage server.
+
+		    
+		b.)If Service is working and running very slow,we check if there are any timeout issues from database or other intermediary web services.
+		    If database timeout errors or errros pop out,we request oncall dba support
+		    If other intermediary service issues,we request oncall intermediary service support.
+		c.)If worst scenario,its a code related issue of our own,we try to provide a temporary workout and at the same time
+		     work towards fixing the code with an emergency minor release.
+		     
+Once the Call is wrapped up,we update the incident ticket on the problem and resolution and close the ticket.
+
+
+Typical issues faced in a running web application.
+1.Application is not launching on one of the servers
+		-Check if the server in cluster is healthy state and if there are any stuck threads.If there are stuck threads,we call oncall weblogic admin and request to take thread dump for analysis and do a rolling restart of the manage server.
+2.Application running very slow.
+		-One of the reasons can be the backend service is working and running very slow,we check if there are any timeout issues from database or other intermediary web services.If database timeout errors or errros pop out,we work with dba support to fix it where as if other intermediary service issues,we request oncall intermediary service support.
+		
+3.Application data issues for specific users.
+	   -Check the logs to see if there is any issue with data ,simulate in UAT environment the problem for typical user profile and resolve the issue by either a workaround or a fix to code part of maintaince release
+
+
+Project Process Questions:
+
+-How many environments you have?
+	-four environments DEV,SIT,UAT and PRODUCTION .WE HAVE A BCP(BUSINESS CONTINUITY PLAN) FOR DISASTER RECOVERY.
+-How many servers u have for Production?
+	-We have a 8 manage server cluster for Production.
+	-We have a 6 manage server cluster for UAT.
+	-We have a 4 manage server cluster for SIT.
+	-We have a 2 manage server cluster for DEV.
+	
+Have you worked on multiple releases anytime.
+	-Yes .
+	-Our developement cycle is 3 month waves.We will be working simultaneously on two releases at anypoint of time.
+How do you maintain code base?
+	-We will have individual workspaces for different code base and sometimes different local domains too.
+	
+-How many deployements you had ?
+	-We do multilpe deployments to DEV,SIT and limited deployments to UAT and 1 deployment to Production.
+
+-How do you do deployment to servers?
+	-We use Maven Build along with Hudson build automation tool.
+	-Dev build is nightly build.
+	-For rest of the environments,build engineer creates appropriate build ear file and Admin deploys onto the servers.
+
+
+-Do you get requirements from Business Users?
+See below
+-Did you write any documentation as part of Development?
+See below
+-What model you follow during Development?
+-Waterfall 
+
+-Do you support Web Services?If so how?-How do you troubleshoot Web Service Issues in Production Environment?
+		-Production Web Services we did support SOAP as well as Restful.
+		-Due to security restriction ,developers will not be able to troubleshoot webservices using SOAPUI locally.
+		-We have a test page setup for webservice in production and we do test in production.
+		-We track each request and corresponding response in database.
+		-We capture the timelag as well as any error occured.
+		-Commonly occuring web service issues we faced are DB timeouts,table locks,Other web service timeout .
+		-All web services are Synchronous Web Services.
+		
+	
+-How to find Stuck Threads?
+	-In Weblogic ,go to Thread
+	
+-How do you check logs in Production Server?
+	-We donot have access to production server directly.
+	-all server logs of Production,UAT,SIT are mounted to DEV Server.
+	-We use putty to login to DEV Unix server and check the production logs.
+	-We use either tail -1000f  logfile or we do use "grep" command.
+
+	
+	
+	
+-Did u take requirements and how did u manage the development cycle?
+	-Business End Users sit in San Mateo California .We have a Business Analyst whom we work closely and gather business requirement and provide rough estimates and also
+	 we do our research to make sure the required functionality is feasible or not.
+	-Then you do the functional design along with Business Analyst which captures all the systems being interacted,data flow diagrams (UML diagrams) and the functionality impacted
+	  along with risk assumptions and out of scope assumptions.
+	-We do the technical design .if it is an enhancement to existing functionality ,we do an addendum to existing technical design. If new functionality we create a new design document.
+	-We review the design with group architect and once we get a sign off.We start the development cycle and we coordinate with our offshore developers in Hyderabad India.
+	-During development cycle,we do our unit testing using JUNIT and they do our sanity testing in Development environment.
+	-SIT testing - Testing team will do the testing.
+	-UAT testing - Business will do the testing.
+	-Load Testing  - we use Load Runner as tool
+	-Dry run on the production deployment  on UAT
+	-Then do a final Produciton deployment
+	-At each stage of deployment we do a SANITY check..
+	-Then we update the runbook ( Production Support guide)
+	
+How will you approach a new project when you onboard?
+My approach
+	-Project may have documentation or no documentation
+	-Go through any existing documentation or wiki.
+	-Say my current project no one prepared anything 
+			-this scenario - i setup meetings one to one to understand 
+					-Project architecture
+					-Modules
+					-Flows
+					-Critical issues faces
+					-DB flow
+			-Setup the project
+				-run different scenarios in DEV mode -locally to understand code flows.
+				-make notes of it or cheatsheet
+				-while i do i try to update or post in wiki
+			-here i stretch a bit extra outside my normal working time to get upto speed.
+
+
+
+
+			
+
+	
+	
+
+		

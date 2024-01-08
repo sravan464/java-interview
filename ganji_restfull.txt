@@ -1,0 +1,220 @@
+************************************  REST INTERVIEW QUESTIONS *****************************************************************************
+Differences between SOAP and Restful Services?
+SOAP is a communication protocol which lets applications exchange XML based information over HTTP whereas REST is not a protocol but an architectural style.
+SOAP supports only  XML format whereas REST supports many different formats like XML,JSON,Text etc.,
+SOAP has a Standard Specification(WSDL,XSD,WS-Policy etc.,) whereas there is none for REST.
+SOAP payload should conform to XML Schema definition whereas REST does not have such constraints on payload.
+SOAP reads cannot be cached whereas REST reads can be cached to improve performance
+REST services can add new API methods and new versions of APIs easily without disrupting clients that are using the existing ones but with SOAP its bit difficult as we need to go through WSDL changes,Versioning etc.,
+
+SOAP supports SSL security and WS-security(Web Service-security); REST only supports SSL security;
+REST works only over HTTP(S) on a transport layer; SOAP can be used different protocols on a transport layer;
+
+
+What is REST?
+Rest(Representational State Transfer) is an architecture style ,where data and functionality are accessed as URIs.'
+
+Advantages of REST?
+-Less overhead than SOAP.
+-Supports many different formats
+-Human readable URIs and easy to TEST
+-GET Responses can be cached.
+-JSON supports easy handling in AJAX Clients
+
+What are the four HTTP methods?
+GET : to retrieve current state of a resource
+POST : to create a new resource
+PUT  : to replace the current state of a resource
+DELETE : to remove a resource
+PATCH : to partially update a resource
+
+What are the various  implementions of REST Services?
+For Development of REST Services,we have couple of frameworks available.
+1.Jersey - from Sun/Oracle
+2.RestEasy by JBoss
+3.Apache CXF.
+
+
+What are the steps to implement a RESTful Service using Jersey 1.x?
+1.First setup a webapp project using Maven or  use an existing webapp project.  (We can use standard Webapp or jersey-quickstart-webapp  archetype)
+2.Add maven dependencies  "jersey-server,jersey-core and jersey-json" artifactids to pom.xml file which gets all relevant jersey jars downloaded.
+3.Add Jersey-Servlet to web.xml and add the required servlet-mapping.
+4.Create a Java Class and annotate it to RestService by adding @Path on ClassName and @Path and @GET for method which will be Restful.
+5.Add the Restful Service java package as init-param value for jersey property com.sun.jersey.config.property.packages.
+6.Deploy the WebService to server and test the  Service.
+
+
+What are the steps to implement a RESTful Service using Jersey 2?
+1.First setup a webapp project using Maven or  use an existing webapp project.  (We can use standard Webapp or jersey-quickstart-webapp  archetype)
+2.Add maven dependencies  "jersey-container-servlet" and json" artifactids to pom.xml file which gets all relevant jersey jars downloaded.
+3.Add org.glassfish.jersey.servlet.ServletContainer to web.xml and add the required servlet-mapping.
+4.Create a Java Class and annotate it to RestService by adding @Path on ClassName and @Path and @GET for method which will be Restful.
+5.Add the Restful Service java package as init-param value for jersey property jersey.config.server.provider.packages.
+6.Deploy the WebService to server and test the  Service.
+
+https://afsinka.wordpress.com/2015/12/27/restful-web-service-example-with-jersey-2-and-tomcat-8/
+
+What kind of output does your REST Service produces?
+Most of the REST Services produces  JSON format and some XML format.
+
+How will you set REST output format?
+We use @Produces annotation and set output format using MediaType class
+
+What kind of output does your REST Service produces?
+Most of the REST Services produces  JSON format and some XML format.
+
+How you can set multiple data formats for your REST Service to produce?
+Content-Type response header will be automatically set based on the media types declared by @Produces annotation.
+If Client sets the  Content-Type in header ,appropriate response is returned.
+
+Example:-
+@GET
+@Produces({"application/xml", "application/json"})
+public String doGetAsXmlOrJson() {
+  ...
+}
+
+How will you validate REST request messages?
+We used jersey-bean-validation to perform validation of request message payload.
+We can use jersey-bean-validation or JSR303 Validation to validate a REST message.We  use @Validated annotation to validate the object.
+
+
+How will you perform Error Handling in REST?
+We created a ExceptionMapper class which can handle checked as well as unchecked exceptions
+We set Response Status code ,Error Message and Error Code
+We can set the error message in Response.
+
+How will consume REST Service?
+We used  Spring RESTTemplate to consume a REST Service.
+We also can use WebClient  of ApacheCXF
+
+How will you test a REST Service?
+We used POSTMan Client which is a Chrome Plugin.
+If we need to use code we can use RESTAssured  framework from Google to automate the REST Services.
+
+
+How will you handle REST Service Security?
+In the projects I worked we used API Gateway tool  Layer 7 and DataPower.
+
+-In our current project,We use Layer 7 Gateway tool to secure REST Service endpoints.
+Gateway tool helps to secure,throttle and version web services.
+
+We provide Layer 7 admin with the Rest url ,request information who manages a developer portal.
+and registers our service end point and maps to a gateway end point.
+-The gateway endpoint is the one we share to our users.
+-Users who need to access the rest url need to first register with gateway and get a ClientID
+-Security at Gateway is typically OAuth.
+
+REST Service security is handles using OAuth2
+
+1.Send Authorization Request with Client_ID,Redirect_URL and Scope.We get Authorization Grant Code.
+2.Send Client_ID,GrantCode,Client_Secret .We get Access Token.
+3.Send AccessToken and URL request to access the resource.
+
+http://www.slideshare.net/aaronpk/an-introduction-to-oauth-2?related=1
+http://www.beingjavaguys.com/2014/10/spring-security-oauth2-integration.html
+
+How can you apply security to RESTful services   
+
+Some of the options available to use for securing a RESTful service, for now, are
+1. Basic Authentication
+   This type of Authentication will require transport level encryption(SSL), as user
+   credentials are to be sent via wire in plain text.
+   
+2. OAuth 1.0a / OAuth 2.0
+   OAuth 1.0a is using advanced encryption for passing token for authentication purposes.
+   OAuth 2.0 is using SSL for transport level security.
+   
+3. Custom/Third-party security protocol
+
+
+What is WADL in RESTFul?
+WADL (Web Application Description Language) is to REST what WSDL is to SOAP.
+
+
+
+What is HATEOAS and why is it important for my REST API?
+HATEOAS stands for "Hypertext As The Engine Of Application State". It means that hypertext should be used to find your way through the API. An example:
+A hypermedia-driven site provides information to navigate the site's REST interfaces dynamically by including hypermedia links with the responses
+
+
+Annotations used in REST ?
+@PATH 				:@Path annotation specify the URL path on which this method will be invoked.
+@GET 				: Annotate your Get request methods with @GET.
+@POST 				:Annotate POST request methods with @POST
+@Produces			:@Produces annotation specifies the type of output this method (or web service) will produce.
+@Consumes		:@Consumes annotation is used to specify the MIME media types a REST resource can consume       
+@PathParam		:REST-style URL parameters to method arguments using @PathParam annotation    
+@QueryParam	:Request parameters in query string can be accessed using @QueryParam annotation
+@FormParam		:REST resources will usually consume XML/JSON for the complete Entity Bean
+@HeaderParam  :represents the parameter of the header
+
+@Context	:
+@BeanParam :
+
+Is there any ways to code so as to provide HTTP headers to a method in the main RESOURCE class
+file?
+
+Answer :
+Yes, by using @Context as argument type for the method that is exposed as REST uri.
+
+import javax.ws.rs.core.HttpHeaders;
+ @GET
+ @Path("abc")
+ public void getValue(@Context HttpHeaders headers) {
+   ...
+   ...
+ }
+
+
+How do you design a REST API which transfers large chunks of data?
+We can use  message framing techniques like chunking, compression, and multipart messages as performance optimizations.
+set
+Content-Encoding : gzip
+Transfer-Encoding : chunked
+
+
+Best practices for REST?
+-Use Nouns and no Verbs.
+-Do not use GET for state changes.Always use PUT, POST and DELETE methods for state changes.
+-Do not mix up singular and plural nouns. Keep it simple and use only plural nouns for all resources. 
+-Effective use Sub-Resources for relations. A resource is related to another resource use subresources
+-Provide filtering, sorting, field selection and paging for collections
+		Filtering: Use a unique query parameter for all fields or a query language for filtering  .ex: GET /cars?color=red,GET /cars?seats<=2
+		Sorting :  Allow ascending and descending sorting over multiple fields  . ex: GET /cars?sort=-manufactorer,+model
+		Pagination : Use limit and offset.  ex: GET /cars?offset=10&limit=5
+-Make the API Version mandatory and do not release an unversioned API. Use a simple ordinal number and avoid dot notation such as 2.5 in REST url.
+-Handle Errors with HTTP status codes.All exceptions should be mapped in an error payload.
+
+
+HTTP Error Codes:
+200 – OK – Eyerything is working
+201 – OK – New resource has been created
+204 – OK – The resource was successfully deleted
+304 – Not Modified – The client can use cached data
+400 – Bad Request – The request was invalid or cannot be served. The exact error should be explained in the error payload. E.g. „The JSON is not valid“
+401 – Unauthorized – The request requires an user authentication
+403 – Forbidden – The server understood the request, but is refusing it or the access is not allowed.
+404 – Not found – There is no resource behind the URI.
+422 – Unprocessable Entity – Should be used if the server cannot process the enitity, e.g. if an image cannot be formatted or mandatory fields are missing in the payload.
+500 – Internal Server Error – API developers should avoid this error. If an error occurs in the global catch blog, the stracktrace should be logged and not returned as response.
+	
+	
+Links:
+Spring RESTTemplate :16
+http://howtodoinjava.com/2015/02/20/spring-restful-client-resttemplate-example/
+
+http://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/   		
+https://blog.apigee.com/detail/restful_api_design_tips_for_versioning
+http://restcookbook.com/Mediatypes/json/		
+
+http://javahungry.blogspot.com/2015/07/web-services-interview-questions-and-answers.html
+
+
+
+Spring-WS:
+http://xpadro.blogspot.com/2013/09/creating-contract-first-web-services_30.html
+
+
+http://www.codingpedia.org/ama/error-handling-in-rest-api-with-jersey/#3_Testing
+	

@@ -1,0 +1,113 @@
+Java Production Support:
+
+Find Command Examples: http://www.cyberciti.biz/faq/how-do-i-search-my-linuxunix-server-for-a-file/
+
+find {dir-name} -name {file-name} action
+find /dir/ -name "file-to-search" -print
+
+To find out a file called foo.txt in entire server, type:
+# find / -name foo.txt
+
+To find out a file named httpd.log :
+# find / -type f -name httpd.log
+
+To find out httpd.log file in /home/web-server/ directory, type:
+# find /home/web-server/ -type f -name httpd.log
+
+To find out httpd.log file in /home/web-server/ directory without case i.e. match httpd.log, HTTPD.LOG, HTTpd.LOG case, type:
+# find /home/web-server/ -type f -iname httpd.log         // case insensitive
+
+'[1-9]\{1,3\}\.[1-9]\{1,3\}\.[1-9]\{1,3\}\.[1-9]\{1,3\}'
+
+
+want to search all lines in file example.txt which contains word UNIX but same time doesn't contain world Linux.
+$ grep UNIX example.txt
+
+exclude all lines which contains Linux we will apply another grep command in this output with option -v to exclude matching word as shown in below grep command :
+
+$ grep UNIX example.txt  | grep -v Linux
+UNIX operating system
+
+want to count of a particular word in log file you can use grep -c option to count the word. 
+grep -c "Error" logfile.txt
+
+
+apply this grep command on our example file to find how many lines contains  word e.g. UNIX has occurred in the file : 
+$ grep -c UNIX example.txt
+
+want to do case insensitive search than use -i option from grep command in UNIX. Grep -i will find 
+occurrence of both Error, error and ERROR and quite useful to display any sort of Error from log file.
+
+grep -i Error logfile
+
+
+use grep -w command in UNIX if you find whole word instead of just pattern.
+grep -w ERROR logfile
+
+grep command line option is "grep -l" which display only the file names which matches the given pattern. 
+grep -l ERROR *.log
+
+
+
+
+You can search recursively i.e. read all files under each directory for a string "192.168.1.5"
+$ grep -r "192.168.1.5" /etc/
+
+Use grep to search words only
+$ grep -w "boo" file
+
+
+Use grep to search 2 different words
+Use the egrep command as follows:
+$ egrep -w 'word1|word2' /path/to/file
+
+
+How do I list just the names of matching files?
+Use the -l option to list file name whose contents mention main():
+$ grep -l 'main' *.c
+
+
+
+
+Tail a log file
+$tail -1000f logfile
+
+
+To see only lines containing an error / exception in last 5000 lines -
+tail -5000 SystemOut.log | grep -i "FileNotFoundException"
+
+
+To see lines containing any of the multiple errors / exceptions in running logs -
+tail -f SystemOut.log | egrep "(WSWS3713E|WSWS3734W|WSVR0605W|javax.net.ssl.SSLHandshakeException|ThreadMonitor)"
+
+
+To get all error / exception snippets in another file
+sed -n '/ERROR/,/EST/p' /opt/WebSphere6/AppServer/profiles/Viva/logs  /VivaWebClusterMemberPsc9800/SystemOut* >> logAna.txt
+
+To find occurences of a particular error in last n days
+find /opt/WebSphere6/AppServer/profiles/Viva/logsOld/VivaWebClusterMemberPsc9800/  
+-iname "SystemOut*" -mtime -7 -exec zgrep "FileNotFoundException" {} \; >> logAnalysis.txt
+
+#sed 'ADDRESSs/REGEXP/REPLACEMENT/FLAGS' filename
+#sed 'PATTERNs/REGEXP/REPLACEMENT/FLAGS' filename
+s is substitute command
+/ is a delimiter
+REGEXP is regular expression to match
+REPLACEMENT is a value to replace
+
+
+egrep stands for extended grep and it is more powerful than grep command in Unix and allows more regular exception like
+ you can use "|" option to search for either Error or Exception by executing just one command.
+
+egrep 'Error|Exception' logfile.txt
+
+egrep 'Error|Exception|Debug' logfile.txt
+
+
+
+
+
+
+http://unixshellscripts.buggybread.com/
+http://www.cyberciti.biz/faq/howto-use-grep-command-in-linux-unix/
+http://arvind-ror.blogspot.com/2014/02/tips-and-tricks-to-search-in-production.html

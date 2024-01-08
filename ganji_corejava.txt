@@ -1,0 +1,840 @@
+*************************************** CORE JAVA INTERVIEW QUESTIONS AND LINKS ******************************************
+JAVA 1.5 FEATURES:
+-Autoboxing And Auto-Unboxing 
+-Generics
+-Improved For Loop
+-Annotations
+-Enum
+-Static import
+
+JAVA 1.6 FEATURES:
+-XML and WebServices JAX-WS 2.0 (JSR224) support
+-JAXB 2.0 support
+-JDBC 4
+-Java Heap Analysis Tool  "jhat"
+
+
+JDK 1.7 FEATURES:
+1.Before JDK 7, only integral types can be used as selector for switch-case statement. In JDK 7, you can use a String object as the selector
+String day = "SAT";
+switch (day) {
+   case "MON": System.out.println("Monday"); break;
+   case "TUE": System.out.println("Tuesday"); break;
+   default: System.out.println("Invalid");
+}
+
+2.In JDK 7, a single catch block can handle more than one exception types.you could use one single catch block, with exception types separated by '|'.
+try {
+   ......
+} catch(ClassNotFoundException|SQLException ex) {
+   ex.printStackTrace();
+}
+
+3.JDK 7 introduces a try-with-resources statement, which ensures that each of the resources in try(resources) is closed at the end of the statement
+try (BufferedReader in  = new BufferedReader(new FileReader("in.txt"));
+           BufferedWriter out = new BufferedWriter(new FileWriter("out.txt"))) {
+      ...........
+      
+      } catch (IOException ex) {
+         ex.printStackTrace();
+      }
+
+4.JDK 7 supports limited type inference for generic instance creation  (Automatic Type Inference in Generic object instantiation)
+	 // Pre-JDK  1.7
+      List<String> lst1 = new ArrayList<String>();
+
+      // JDK 1.7 supports limited type inference for generic instance creation
+      List<String> lst2 = new ArrayList<>();
+
+5.JDBC in Java 1.7
+JDBC contained in Java 1.7 / Java SE 7 is JDBC 4.1 that is newly getting introduced. JDBC 4.1 is more efficient when compared to JDBC 4.0.
+
+JDK 1.8 Features:   http://way2java.com/java-versions-2/jdk-1-8-features/  -- Good Link
+
+1.Improvement in static method references  i.e., can call the methods with their names (references) with :: operator.
+Test::matchStringLength
+
+
+2.Parallel Sort Feature: Parallel Sort 
+
+parallelSort(char[] a)
+parallelSort(char[] a, int fromIndex, int toIndex)
+
+3.Calendar.Builder  : 
+Before JDK 1.8, each date field is set separately with individual methods. Each set method added as a separate statement.
+
+Before JDK 1.8 :
+Calendar calendar = Calendar.getInstance();
+// populate calendar with individual set methods one-by-one as a separate statement
+    calendar.set(YEAR, 2013);
+    calendar.set(MONTH, APRIL);
+    calendar.set(DATE, 10);
+
+
+JDK 1.8 Onwards:
+Calendar calendar1 = new Calendar.Builder()
+                         .set(YEAR, 2013).set(MONTH, APRIL).set(DATE, 10).build();         // one semicolon here
+
+4.Functional Interfaces : Interface containing only one abstract method is known as functional interface .
+A new annotation, @FunctionalInterface, is introduced to raise compilation error if an interface marked as @FunctionalInterface contains more than one abstract method.
+
+@FunctionalInterface     -- This will return error
+public interface Sample
+{
+  public abstract void method1();
+  public abstract void method2();
+}                        
+
+
+5.CompletableFuture interface which allows to provide a callback interface which is called once a task is completed.
+
+6.Replacement of PermGen with Metaspace :removal of Permanent Generation (PermGen) space and in its place introduced Metaspace.
+
+garbage collector is triggered to go for garbage collection when the metadata usage is more than the size of MaxMetaspaceSize
+
+
+7.Lamda Expressions :introduces a new method forEach() to use with lambda expression
+
+System.out.println("Printing with earlier JDK 1.5 for loop:");
+    for(String str : alphabets)
+      System.out.print(str + "\t");
+ 
+    System.out.println("\nPrinting with latest forEach loop introduced with JDK 1.8 with lambda usage:");
+     alphabets.forEach(str -> 
+       {  
+                          System.out.print(str + "\t");
+                        }
+    );
+
+
+7.The Date/Time API is moved to java.time package and Joda time format is followed. Another goodie is that most classes are Threadsafe and immutable.
+-Reflection api is slightly increased with the support of TypeName, GenericString, etc.
+	
+
+
+
+
+OOPS CONCEPTS QUESTIONS:
+
+What is Encapsulation?
+Encapsulation is the mechanism that binds together code and data it manipulates and keeps both safe from outside interference and misuse. 
+it means binding up of data and methods it means the concept of class in which we put together the data members and methods or function members.
+
+What is Abstraction?
+Abstraction is the process of hiding the details and exposing only the essential features of a particular concept or object. 
+It means that hiding the background details which are not useful to the user for it we use normaly private or protected access specifier and by it data is not let free to move around the system.
+
+What is Inheritance?
+Inheritance is the process by which one object acquires the properties of another object.
+
+
+
+What is the difference between Encapsulation and Abstraction?
+First difference between Abstraction and Encapsulation is that, Abstraction is implemented in Java using interface and abstract class 
+while Encapsulation is implemented using private, package-private and protected access modifier.
+
+Abstraction represent taking out the behavior from How exactly its implemented, one example of abstraction in Java is interface while Encapsulation means hiding details of 
+implementation from outside world so that when things change no body gets affected
+
+
+What is Aggregation?
+A special form of association which is a unidirectional one way relationship between classes.
+Example:  Wallet and Money classes. Wallet has Money but money doesn’t need to have Wallet necessarily so its a one directional relationship.
+if Wallet class is not present, it does not mean that the Money class cannot exist.
+
+What is Composition?
+Composition is the design technique to implement has-a relationship in classes. 
+The classes are dependent on each other and their life span are same (if one dies then another one too) then its a composition.
+ For e.g. Human and Heart. A human needs heart to live and a heart needs a Human body to survive.
+ So Human and Heart classes co-exists.One cannot survive without the Other.
+ 
+Java composition is achieved by using instance variables that refers to other objects. For example, a Person has a Job.
+Advantage: We can use java inheritance or Object composition for code reuse.
+
+Car has a Engine and Car is a Automobile
+
+class Engine {} // The engine class.
+
+class Automobile{} // Automobile class which is parent to Car class.
+
+// Car is an Automobile, so Car class extends Automobile class.  ---- ***** This is inheritance   is-a relationship *****
+class Car extends Automobile{ 
+
+ // Car has a Engine so, Car class has an instance of Engine class as its member.
+ private Engine engine;     **** This is Composition   has-a relationship *****
+}
+
+
+Difference between Inheritance and Composition?
+Inheritance is a "is-a"  relationship and Composition is a "has-a" relationship.
+
+
+Why Java does not implement Multiple Inheritance?
+Java does not implement Multiple Inheritance because of Diamond problem.
+
+Daimond Problem:
+Lets Say there are four classes ClassA,ClassB,ClassC and ClassD.
+Now ClassB and ClassC extends ClassA and inherit variables and methods of ClassA. Assume ClassB and ClassC has a method public void methodA() { }
+Now assuming multiple inheritance ,ClassD extends ClassB and ClassC  .
+ClassD should inherit that overridden method, which overridden method will be used? Will it be from B or C?  This creates confusion.
+
+So Multiple Inheritance is not supported in Java.Dynamic loading of classes makes the implementation of multiple inheritance difficult.
+
+What is abstract class?
+A Class with one ore more methods with just method signature and no implementation  and method declared with keyword as abstract is an abstract class.
+The class will also be declared as abstract.
+Abstract class cannot be instantiated. *****V.Imp ****
+
+Can abstract class have Constructor in Java?
+ when any class extend abstract class, constructor of sub class will invoke constructor of super class either implicitly or explicitly. This chaining of constructors is one of the reason abstract class can have constructors in Java .
+
+
+What is interface?
+A class with all method definitions and no implementations is an Interface.
+its a 100% abstract class.
+
+
+What is the difference between abstract class and interface?
+An abstract class can have method body (non-abstract methods) where as Interface have only abstract methods.
+An abstract class can have instance variables where as	n interface can have only public static final constants.
+An abstract class can have constructor where as an Interface cannot have constructor.
+An abstract class can have static methods where as Interface cannot have static methods.
+
+
+What are different types of access modifiers?
+ public: Any thing declared as public can be accessed from anywhere. 
+-private: Any thing declared as private can’t be seen outside of its class. 
+-protected: Any thing declared as protected can be accessed by classes in the same package and subclasses in the other packages. 
+-default modifier : Can be accessed only to classes in the same package.
+
+
+What is final, finalize() and finally?-
+final : final keyword can be used for class, method and variables. 
+final class: A final class cannot be subclassed and it prevents other programmers from subclassing a secure class to invoke insecure methods.
+final method :A final method can’t be overridden.
+final variable: A final variable can’t change from its initialized value. finalize() : finalize() method is used just before an object is destroyed and can be called just prior to garbage collection. 
+finally : finally, a key word used in exception handling, creates a block of code that will be executed after a try/catch block has completed and before the code following the try/catch block. The finally block will execute whether or not an exception is thrown. designed to address this contingency.
+
+
+Can a final variable be blank or uninitialized?
+Yes.final variable can be blank or uninitialized and the variable can be intialized at the time of creating object and once initialized may not be changed,
+
+What are Transient and Volatile Modifiers?
+Transient: transient modifier applies to variables only and it is not stored as part of its object’s Persistent state. Transient variables are not serialized. 
+Volatile: Volatile modifier applies to variables only and it tells the compiler that the variable modified by volatile can be changed unexpectedly by other parts of the program.
+
+What is static variable?
+-Variable declared at Class level . Ex: public static int count=100;
+-Variable can be accessed in all the objects of Class.i.e., the variable is shared across all the objects of the Class.
+
+What is static method?
+-static method belongs to a class rather than object instances of class.
+-static method can be invoked without creating object instance of class.
+-static methods can access static variables.
+
+What is static block?
+-static block is used to intialize static member variables.
+-static block gets executed even before main method gets invoked.
+
+What is static class?
+Static classes are nested classes that act like top-level classes, even if they appear somewhere in the middle or the bottom of the program hierarchy 
+Static classes do not need the reference of the outer class to be invoked.
+PS:We cannot make a Outer Class as Static ,we get Compilation Error.
+
+What is difference between static class and non-static nested class?
+Both are nested Classes.
+Static classes do not need the reference of the outer class to be invoked where as non-static nested classes needs reference of outer class to be invoked.
+
+Example:
+class OuterClass{
+
+	// Static nested class
+   public static class NestedStaticClass{
+   
+   }
+
+   // non-static nested class - also called Inner class
+    public class InnerClass{ 
+   
+   }
+
+	public static void main(String [] args){
+		//Invoking static nested class
+       OuterClass.NestedStaticClass printer = new OuterClass.NestedStaticClass();
+      
+       //invoking non-static nested class
+       OuterClass outer = new OuterClass();  //need to create OuterClass reference first       
+       OuterClass.InnerClass inner  = outer.new InnerClass();	
+	}
+}
+
+
+What is the difference between this() and super()?
+- this() can be used to invoke a constructor of the same class.
+- super() can be used to invoke a super class constructor.
+
+What is method overloading and method overriding?
+Method overloading: When a method in a class having the same method name with different arguments is said to be method overloading. 
+Method overriding : When a method in a class having the same method name with same arguments is said to be method overriding.
+
+What is difference between overloading and overriding?
+ In overloading, separate methods share the same name whereas in overriding, subclass method replaces the superclass.
+Overloading must have different method signatures whereas overriding must have same signature.
+
+
+What is runtime polymorphism?  This is also called as late binding or dynamic binding
+Runtime polymorphism or dynamic method dispatch is a process in which a call to an overridden method is resolved at runtime rather than at compile-time.
+
+What is the difference between static binding and dynamic binding?
+When type of the object is determined at compiled time(by the compiler), it is known as static binding.
+When type of the object is determined at run time, it is known as dynamic binding.
+
+
+Exceptions Questions:
+What is the difference between CheckedException and Unchecked Exception?
+Checked Exceptions are checked at compile time where as UnChecked Exception are not checked at compile time.
+
+Checked Exception example: IOException,SQLException etc.,
+UnChecked Exception example :NullPointerException,ArithmeticException
+
+What is the base class for Exception and Error?
+Throwable
+
+Difference between Throw and Throws?
+Throw is used to explicitly throw an Exception where Throws is used to declare exception.
+Throw is used within the method exception block whereas Throws is used in method signature.
+Using Throw ,only one exception is thrown whereas using Throws you can declare multiple exceptions.
+CheckedExceptions are not propogated whereas in Throws,it can be propagated. 
+
+What is "finally" block?
+The code block which will be executed irrespective of any exception thrown.
+
+Can a "finally" block exists without a catch block?
+Yes. a try block can have a catch block and finally block or just a finally block.
+
+How do you write Custom Exception class?
+Create an CustomException class and extend Exception class.
+Create a default constructor,constructor with a string error message and a constructor with Throwable .
+
+Example:
+class MyAppException extends Exception {
+ 
+    private String message = null;
+ 
+    public MyAppException() {
+        super();
+    }
+ 
+    public MyAppException(String message) {
+        super(message);
+        this.message = message;
+    }
+ 
+    public MyAppException(Throwable cause) {
+        super(cause);
+    }
+}
+
+
+Lang Package & Collections Questions:
+What are immutable objects in Java?
+Immutable objects are simply objects whose state (the object's data) cannot change after construction.
+example: String,Integer etc.,
+
+How do you create immutable classes?
+-Make Class final so that no other class subclass it
+-make fields private and final
+-make objects with the data in one step rather than allowing setter methods once object is created.
+-have no setter methods
+
+
+Why String objects are immutable in java?
+String is Immutable in Java because String objects are cached in String pool. Since cached String literal is shared between multiple client there is always a risk, where one client's action would affect all other client
+
+String s1="Hello"; String s2="Hello" ; both s1,s2 refer to same String Pool . Now we go and change 
+
+How many ways you can create a String ?
+Using String literal or using new Keyword
+String s="Hello" ; // This is literal
+String s=new String("Hello"); // This is using new keyword
+
+Difference between creating Strings using literal or new Keyword.
+If we use String literal to create a String,it creates String object in String Pool provided there is no String object exists with same String value.
+If we use new keyword to create a String,it creates String object every time in Heap Memory.
+
+Ex: 
+String s1="Hello" ;// first time adds s1-->"Hello" ,
+String s2="Hello" ;// Since "Hello" is already present in String Pool,it points s2 to "Hello" (already created value);
+
+String s11=new String("World") ;// first time adds s11-->"World" ,
+String s22=new String("World") ;// creates one more "World" s22--->"World"
+
+What is the difference between String and StringBuilder and StringBuffer.
+String is an immutable object where as StringBuilder or StringBuffer are immutable object.
+StringBuffer is synchronized whereas StringBuilder is not synchronized.
+
+StringBuffer is synchronized while StringBuilder is not which makes StringBuilder faster than StringBuffer.
+Concatenation operator "+" is internal implemented using either StringBuffer or StringBuilder.
+
+Use String if you require immutability, use Stringbuffer in java if you need mutable + thread-safety and use StringBuilder in Java if you require mutable + without thread-safety.
+
+
+What is Generics in Java?
+Generics is Java 1.5 feature which allow us to provide the type of Object that a collection can contain, so if you try to add any element of other type it throws compile time error.
+This helps us to avoid ClassCastException at Runtime because you will get the error at compilation
+
+What is Autoboxing in Java?
+Autoboxing in Java means the ability to convert primitive types like int, float etc to primitive primitive wrapper classes such as Integer
+
+What is Auto-unboxing in Java?
+Auto Unboxing in Java Autoboxing in java means the ability to convert wrapper classes such as Integer,Float into primitive data types like int, float etc.,
+
+Difference between Array and ArrayList?
+Array is a fixed length Datastructure where as ArrayList is variable length.Default size is 10 and you can set your own capacity too.
+Arrays allows to store primitive data as well as objects whereas ArrayList allows only Objects to be stored.
+Array throws ArrayStoreException if you try to insert incompatible data at runtime whereas ArrayList will not allow incompatible data to be stored because of Generics type-safety.
+ArrayList and Array provides O(1) performance but add method can be O(logN) in ArrayList if adding a new element triggers resize, as it involves creating a new array in background and copying elements from the old array to new array.
+Array only provides a length attribute which tells you the number of slots in the array i.e. how many elements it can store, it doesn't provide you any method to find out how many are filled where ArrayList size() method tells how many objects are stored in ArrayList at any given point of time.
+
+
+What is difference between an ArrayList and LinkedList?
+ArrayList is an index based data structure backed by Array, so it provides random access to it’s elements whereas LinkedList stores data as list of nodes where every node is linked to it’s previous and next node.
+Insertion, addition or removal of an element is faster in LinkedList compared to ArrayList because there is no concept of resizing array or updating index when element is added in middle.
+ArrayList is not good fo manipulation(updation,deletion) as lot of shifting will be required where as LinkedList is good for manipulation(updation,deletion).
+ArrayList is 	good for storing and retrieving data where as LinkedList is good for manipulating data.
+
+
+What is difference between Iterator and ListIterator?
+Iterator traverses the elements in forward direction only where as ListIterator traverses the elements in both the directions.
+Iterator can be used for ArrayList,Set where as ListIterator can be used for only LinkedList.
+
+What is the difference between a List and Set?
+List allows duplicates where as Set doesnot allow duplicates.
+List maintains insertion order where as Set doesnot maintain insertion order unless you write a TreeSet.
+
+What is the difference between HashSet and TreeSet?
+HashSet works on Hashing principle and doesnot maintain ordering of elements where as TreeSet uses binary tree principle and maintains the insertion order in ascending order format.
+HashSet allows null whereas TreeSet doesnot allow null.
+
+
+How does you eliminate duplicates if you add custom objects like Employee to Set.
+We need to override equals method and hashcode method.
+
+What do you understand by iterator fail-fast property?
+Iterator fail-fast property checks for any modification in the structure of the underlying collection everytime we try to get the next element. 
+If there are any modifications found, it throws ConcurrentModificationException.
+
+PS:All the implementations of Iterator in Collection classes are fail-fast 
+
+What is fail-safe Iterator?
+Fail Safe Iterator makes copy of the internal data structure (object array) and iterates over the copied data structure.Any structural modification done to the iterator affects the copied data structure.  So , original data structure remains  structurally unchanged .Hence , no ConcurrentModificationException throws by the fail safe iterator.
+
+Two  issues associated with Fail Safe Iterator are :
+1. Overhead of maintaining the copied data structure i.e memory.
+2.  Fail safe iterator does not guarantee that the data being read is the data currently in the original data structure. 
+
+What is difference between fail-fast and fail-safe?   ***** V.V.Important Question *****
+Fail fast iterator while iterating through the collection , instantly throws Concurrent Modification Exception if there is structural modification  of the collection whereas 
+Fail safe iterator does not throw exception.
+
+
+List can contain duplicate values but Set doesnt allow. Set allows only to unique elements. 
+List allows retrieval of data to be in same order in the way it is inserted but Set doesnt ensures the sequence in which data can be retrieved.(Except LinkedHashSet)
+
+
+What is difference between HashSet and HashMap?
+HashSet contains only values where as HashMap contains key-value pairs.
+
+How does HashMap works?
+HashMap stores key-value pair
+HashMap works on hashing algorithm and uses hashCode() and equals() method in put and get methods.
+HashMap initial default capacity is 16 and load factor is 0.75.
+
+difference between HashMap and Hashtable?
+HashMap allows null key and values whereas Hashtable doesn’t allow null key and values.
+Hashtable is synchronized but HashMap is not synchronized. 
+HashMap is better for single threaded environment, Hashtable is suitable for multi-threaded environment.
+HashMap provides Set of keys to iterate and hence it’s fail-fast but Hashtable provides Enumeration of keys that doesn’t support this feature.
+
+What happens when two keys result in same hashcode?How does java handle this scenario
+When two keys results in same hashcode and directs to the same bucket (assume bucket 1) you want to store the second element also in the same bucket. You add this second element to the already created linked list as the adjacent element.
+when you retrieve a value it will compute the hash code and direct you to a bucket which has two elements. You scan those two elements alone sequentially and compare the keys using their equals() method
+
+
+
+Hash map is internally an array of buckets. A bucket is implemented as a linked list.
+
+The hash code determines the index of its belonging bucket.
+
+If two objects have the same hash code, it means they will be stored in the same bucket, which is also called collision. And maybe you know how to locate an object in a bucket, yes, by using its equals() method to traverse the linked list of its bucket.
+
+So the size of bucket array is less, the possibility of collision is greater and the buckets is longer.
+
+What is ConcurrentHashMap in Java?
+ConcurrentHashMap is introduced Java 1.5 onwards 
+ConcurrentHashMap allows to partition Map. ConcurrentHashMap allows multiple readers to read concurrently without any blocking the Map.
+
+
+What is difference between ConcurrentHashMap and HashMap?
+ConcurrentHashMap is thread-safe ie.,code can be accessed by single thread at a time whereas HashMap is not thread-safe .
+ConcurrentHashMap locks only certain portions of Map whereas HashMap can be synchornized using SynchornizedMap method ,which locks the whole HashMap.
+ConcurrentHashMap does not allow NULL keys where as HashMap allows only one NULL key.
+ConcurrentHashMap is faster in Multi Threaded Environment whereas HashMap is faster in Single Thread environment.
+
+What is WeakHashMap in Java?
+WeakHashMap is an implementation of Map interface where the memory of the value object can be reclaimed by Grabage Collector if the corresponding key is no longer referred by any section of program. 
+
+Difference between HashMap and WeakHashMap?
+This is different from HashMap where the value object remain in HashMap even if key is no longer referred.
+We need to explicitly call remove() method on HashMap object to remove the value so that it can be ready to be reclaimed(Provided no other section of program refers to that value object). Calling remove() is an extra overhead
+
+https://techvivek.wordpress.com/2012/09/11/difference-between-hashmap-and-weakhashmap/
+
+Difference between HashMap vs TreeMap and LinkedHashMap?
+HashMap makes absolutely no guarantees about the iteration order. It can (and will) even change completely when new elements are added.
+TreeMap will iterate according to the "natural ordering" of the keys according to their compareTo() method (or an externally supplied Comparator). Additionally, it implements the SortedMap interface, which contains methods that depend on this sort order.
+LinkedHashMap will iterate in the order in which the entries were put into the map
+
+
+Which collections are Thread-safe?
+Vector, Hashtable, Properties and Stack
+
+What is difference between Comparator and Comparable interfaces?
+Comparator provides multiple sorting sequences where as Comparable provides only one single logic of sorting.
+In case of Comparator ,we override "Compare" method where as in Comparable we override "CompareTo" method.
+Comparable interface can be implemented by Base class where as Comparator will be implemented as static inner classes.
+Comparable is part of java.lang package where as Comparator is part of java.util package.
+
+
+How to create a Synchornized Collection?
+Collections.synchronizedCollection(Collection c) 
+
+
+What is difference between DeepCopy and Shallow copy in cloneable?
+Shallow copy is a bit-wise copy of an object where all primitive data types are copied bit-wise and object references are copied rather than objects itself.
+A Deep copy copies all fields, and makes copies of dynamically allocated memory pointed to by the fields. A deep copy occurs when an object is copied along with the objects to which it refers.
+In case of Deep Copy ,we override the clone() method
+
+
+THREADS INTERVIEW QUESTIONS:
+
+What are the different ways to implement a Thread?
+We can either extend "Thread" class or implement "runnable" interface.
+ 
+ 
+What is the difference between Thread.start() & Thread.run() method? 
+Thread.start() method (native method) of Thread class actually does the job of running the Thread.run() 
+method in a thread. If we directly call Thread.run() method it will executed in same thread, so does not solve the purpose
+of creating a new thread. 
+
+
+Different states of Thread LifeCycle?
+New Born Thread-->Runnable-->Running-->Blocked State-->Dead State
+
+Where can we use "Synchronized" keyword in MultiThreading applications?
+Synchronized keyword ensures that 
+1.only a single thread can execute a block of code at the same time
+2.each thread entering a synchronized block of code sees the effects of all previous modifications that were guarded by the same lock
+
+
+Synchronized keyword is used for the following scenarios
+1.Instance methods
+2.Static methods
+3.Code blocks inside Instance methods - using Synchronized Block
+4.Code blocks inside static methods  - using Synchronized Block
+
+What is ThreadLocal in Java?
+The ThreadLocal class in Java enables you to create variables that can only be read and written by the same thread. Thus, even if two threads are executing the same code, and the code has a reference to a ThreadLocal variable, then the two threads cannot see each other's ThreadLocal variables.
+Ex:- 
+ThreadLocal myThreadLocal = new ThreadLocal();
+myThreadLocal.set("A thread local value");
+String threadLocalValue = (String) myThreadLocal.get();
+
+
+Why do we need to use volatile keyword in Java?
+The problem with multiple threads is that  threads do not see the latest value of a variable because that value has not yet been written back to main memory by another thread, is called a "visibility" problem. The updates of one thread are not visible to other threads.
+
+Volatile Keyword  added to Variable guarantees more than just the reading and writing of a variable from and to main memory instead of CPU Cache.
+
+If one thread reads and writes the value of a volatile variable, and other threads only read the variable, then the reading threads are guaranteed to see the latest value written to the volatile variable. 
+
+If two threads are both reading and writing to a shared variable, then using the volatile keyword for that is not enough. You need to use synchronization in that case to guarantee that the reading and writing of the variable is atomic.
+
+What is atomic operation? What are atomic operations in Java?
+Atomic operations are performed in a single unit of task without interference from other operations.
+java.util.concurrent.atomic provides wrapper classes for int , long,boolean  that can be used to achieve this atomically without usage of Synchronization.
+
+
+Have you used any Java Concurrency packages?
+Executor,Callable and Future
+
+What is ThreadPool?When do we use ThreadPool ?
+
+Thread pool lets us create a limited number of threads which are called worker threads. 
+A thread pool can be described as a collection of Runnable objects (work queue) and a connections of running threads.
+
+Thread pools manage a pool of worker threads. The thread pools contains a work queue which holds tasks waiting to get executed.
+Tasks are submitted to these worker threads for execution. The life cycle of both tasks and threads is managed by Executor framework
+
+
+Code Sample:
+ExecutorService executor = Executors.newFixedThreadPool(5);
+
+What is Executor Framework?  http://mrbool.com/working-with-java-executor-framework-in-multithreaded-application/27560
+Framework introduced as part of JDK 1.5 onwards
+Executor Framework is concurrent utility framework in java and used for standardizing invocation, scheduling, execution and control of asynchronous tasks in parallel threads.
+Executor implementation in java uses thread pools which consists of worker threads. 
+The entire management of worker threads is handled by the framework.
+
+If i synchronized two methods on the same class, can they run simultaneously on the same object? for example:
+ class A {
+    public synchronized void methodA() {
+        //method A
+    }
+
+    public synchronized void methodB() {
+        // method B
+    }
+}
+
+Both methods lock the same monitor. Therefore, you can't simultaneously execute them on the same object from different threads (one of the two methods will block until the other is finished).
+
+Putting synchronized on a method means the thread has to acquire the lock on the object instance before entering that method, so if you have two different methods marked synchronized the threads entering them will be contending for the same lock, and once one thread gets the lock all other threads are shut out of all methods that synchronize on that same lock. So in order for the two methods to run concurrently they would have to use different locks.
+
+Java Thread acquires an object level lock when it enters into an instance synchronized java method and acquires a class level lock when it enters into static synchronized java method.
+
+
+Callable Vs Runnable
+In case of Runnable, the run () method does not return a value or throw any checked exception
+In case of Callable ,the call () method that allows the return of some computed value which can be used in future processing and it also throws an exception if necessary.
+
+
+
+
+
+Difference between Executor Framework and Callable?
+Executor Framework do not return result 
+
+
+
+What is BlockingQueue?
+What is Executor Class?
+What is Callable ?
+What is Future and FutureTask?
+
+What is the advantage of new Lock interface over synchronized block in Java?
+The major advantage of lock interfaces on multi-threaded and concurrent programming is they provide two separate lock for reading
+and writing which enables you to write high performance data structure like concurrenthashmp and conditional blocking
+
+What is a deadlock?
+Deadlock is a situation where two or more threads are blocked forever, waiting for each other.
+This may occur when two threads, each having a lock on one resource, attempt to acquire a lock on the other's resource. 
+
+Thread deadlock can occur in following conditions: 
+-When two threads call Thread.join() on each other. 
+-When two threads use nested synchronized blocks to lock two objects and the blocks lock the same objects in different order.
+
+
+Design Pattern Questions:
+What kind of design patterns you have used?
+Singleton,Factory,Abstract Factory,Facade,Service Locator etc.,
+
+What are the design patterns you have used in your projects?
+Singleton,Factory,Abstract Factory,Facade,Service Locator etc.,
+
+Java Design patterns are categorized into three 
+1.Creation Patterns
+		-Singleton
+		-Factory Method
+		-Abstract Factory
+2.Structural Patterns
+		-Facade
+		-Adapter
+
+3.Behavioural Patterns
+		-Command Pattern
+		-Observer Pattern
+
+What is Singleton Design Pattern?
+-only one instance of a class is created in the Java Virtual Machine.
+
+Steps to create a Singleton Class:
+1.Class should have Static member that holds only one instance of the  Singleton class
+2.Class should have a private constructor which will prevent anybody else to instantiate the Singleton class
+3.Class should have a "public static synchronized  method " which provides the global point of access to the Singleton object and returns the instance to the client calling class and also prevents from double check locking issue with MultiThreaded Environment.
+
+
+Code :
+public class SingletonExample implements Cloneable,Serializable {
+ 
+    // Static member holds only one instance of the  SingletonExample class
+    private static SingletonExample singletonInstance;
+ 
+    // SingletonExample prevents any other class from instantiating
+    private SingletonExample() {    }
+ 
+    // Providing Global point of access
+    public static synchronized SingletonExample getSingletonInstance() {
+        if (null == singletonInstance) {
+            singletonInstance = new SingletonExample();
+        }
+        return singletonInstance;
+    }
+    
+    /* Restrict cloning of object */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		throw new CloneNotSupportedException();
+	}
+	
+	//This prevents creating duplicate objects while serializing and deserializing
+	protected Object readResolve() {
+        return getInstance();
+    }
+
+}
+
+How to solve Double Check locking in Singleton Design Pattern?
+Declare the method as "public static synchronized" to prevent this Double Check locking issue.
+
+Is there an alternative for Singleton in Java?
+Java 1.5 introduced "ENUM" class .
+Enum is thread safe and implementation of Singleton through Enum ensures that your singleton will have only one instance even in a multithreaded environment
+
+Sample Code:
+public enum SingletonEnum {
+ INSTANCE; // instance object
+ public void doStuff(){
+     System.out.println("Singleton using Enum");
+ }
+}
+
+Difference between Singleton and Static ?
+Singleton Classes can  extend Parent classes and inherit parent class variables where as Static Classes can extend Parent classes but cannot inherit parent  class variables
+Static Classes will have all member variables as static where as in Singleton Class its not.
+Static class cannot be cloned where as Singleton can be cloned.
+
+
+What is Factory Pattern?
+Factory Pattern is a pattern used to construct objects such that they can be decoupled from the implementing system.
+In Factory Pattern, FactoryMethod  leaving it to the subclasses of the Creator to decide which type of concrete objects to create
+
+A factory is a Java class that is used to encapsulate object creation code. 
+A factory class instantiates and returns a particular type of object based on data passed to the factory.
+The different types of objects that are returned from a factory typically are subclasses of a common parent class.
+Factory design pattern uses inheritance and relies on derived class or sub class to create object
+ 
+Example:- Logging Frameworks,
+
+What is Abstract Factory Pattern?
+Abstract Factory design pattern  creates Factory and Factory design pattern creates  objects
+
+Abstract factory pattern is a creational design pattern. An abstract factory is a factory that returns factories.
+A normal factory can be used to create sets of related objects. An abstract factory returns factories. Thus, an abstract factory is used to return factories that can be used to create sets of related objects.
+
+Ex:-
+
+Difference between Factory Pattern and Abstract Factory Pattern?
+1.Abstract Factory design pattern  creates Factory and Factory design pattern creates  objects.
+2.Abstract Factory and Factory design pattern is that AbstractFactory pattern uses composition to delegate responsibility of creating object to another class while Factory design pattern uses inheritance and relies on derived class or sub class to create object.
+
+What is Facade Pattern?
+Provide a unified interface to a set of interfaces in a subsystem. Façade defines a higher-level interface that makes the subsystem easier to use.
+The Facade can be used to hide the inner workings of a third party library, or some legacy code.  All that the client needs to do is interact with the Facade, and not the subsystem that it is encompassing
+
+http://java.dzone.com/articles/design-patterns-uncovered-1
+
+
+Class loading in Java?
+Bootstrap Classloader
+System Classloader
+User defined Classloader?
+
+Give an idea about Class Loading in Java?
+ A loaded class is represented by an instance of java.lang.Class.
+ There is a special class responsible for performing the class loading: the java.lang.ClassLoader
+ Class loaders in Java are hierarchical. 
+ Each class loader has a parent, except for the root class loader, which is called the bootstrap class loader.
+ When a JVM process starts, it will create three class loaders namely  bootstrap, the extension, and the system class loaders.
+ 1.bootstrap class loader loads the core Java libraries, such as java.lang.System, 
+ 2.extension class loader loads classes that are defined in the $JAVA_HOME/lib/ext directory.
+ 3.system class loader, which is the entry point for most class loading activities in a Java application, loads classes from the Java classpath
+ 
+ http://blog.cask.co/2015/08/java-class-loading-and-distributed-data-processing-frameworks/
+ 
+
+
+Good Links:
+
+http://www.journaldev.com/1162/java-multi-threading-concurrency-interview-questions-with-answers#java8-concurrency
+
+http://www.fromdev.com/2008/05/java-threading-questions.html
+http://www.fromdev.com/2008/05/java-collections-questions.html
+http://www.fromdev.com/2012/02/java-interview-question-answer.html
+
+http://javatechig.com/design-patterns/singleton-design-pattern-in-java   - Singelton Good Example
+
+
+https://www.linkedin.com/grp/post/3983267-5822700188573134849  - Hash Collisions
+
+
+http://bigocheatsheet.com/ - Big O Cheat Sheet
+
+http://javapapers.com/core-java/why-multiple-inheritance-is-not-supported-in-java/
+
+http://www.dineshonjava.com/2013/06/how-does-java-hashmap-work-internally.html#.Vhf5qI9Viko
+
+
+http://java2novice.com/java-interview-programs/string-to-number/
+
+
+http://www.programcreek.com/2012/11/top-10-algorithms-for-coding-interview/
+
+"aaabbbcabbc"
+
+
+Write Code for Deadlock
+More On Threads
+
+
+Simple Deadlock Code:
+public class MyDeadlock {
+ 
+    String str1 = "Java";
+    String str2 = "UNIX";
+     
+    Thread trd1 = new Thread("My Thread 1"){
+        public void run(){
+            while(true){
+                synchronized(str1){
+                    synchronized(str2){
+                        System.out.println(str1 + str2);
+                    }
+                }
+            }
+        }
+    };
+     
+    Thread trd2 = new Thread("My Thread 2"){
+        public void run(){
+            while(true){
+                synchronized(str2){
+                    synchronized(str1){
+                        System.out.println(str2 + str1);
+                    }
+                }
+            }
+        }
+    };
+     
+    public static void main(String a[]){
+        MyDeadlock mdl = new MyDeadlock();
+        mdl.trd1.start();
+        mdl.trd2.start();
+    }
+}
+
+
+
+
+
