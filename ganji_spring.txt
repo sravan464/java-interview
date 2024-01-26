@@ -593,6 +593,8 @@ public class Customer {
 	//...
 }
 
+https://stackoverflow.com/questions/56642356/when-to-use-qualifier-and-primary-in-spring
+
 More Details: Example:-  http://www.mkyong.com/spring/spring-autowiring-qualifier-example/
 
 @Required:This annotation applies to bean property setter methods and it indicates that the affected bean property must be populated in XML configuration file at configuration time otherwise the container throws a BeanInitializationException exception.
