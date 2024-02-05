@@ -345,3 +345,287 @@ public class SymptomSelectorTest {
         assertNotEquals(selector1.hashCode(), selector2.hashCode());
     }
 }
+---------------
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SymptomSelectorResponseTest {
+
+    @Test
+    public void testGettersAndSetters() {
+        SymptomSelectorResponse response = new SymptomSelectorResponse();
+        
+        // Set values using setters
+        response.setDevice(new SymptomSelectorResponse.Device());
+        response.setSymptomSelector(new SymptomSelectorResponse.SymptomSelector());
+        
+        // Verify values using getters
+        assertNotNull(response.getDevice());
+        assertNotNull(response.getSymptomSelector());
+    }
+
+    @Test
+    public void testHashCodeAndEquals_PositiveScenario() {
+        SymptomSelectorResponse.Device device1 = new SymptomSelectorResponse.Device();
+        device1.setImageurl("image1");
+
+        SymptomSelectorResponse.SymptomSelector selector1 = new SymptomSelectorResponse.SymptomSelector();
+        selector1.setTitle("title1");
+        selector1.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues1 = new ArrayList<>();
+        issues1.add(new SymptomSelectorResponse.Issue());
+        selector1.setIssues(issues1);
+
+        SymptomSelectorResponse response1 = new SymptomSelectorResponse();
+        response1.setDevice(device1);
+        response1.setSymptomSelector(selector1);
+
+        SymptomSelectorResponse.Device device2 = new SymptomSelectorResponse.Device();
+        device2.setImageurl("image1");
+
+        SymptomSelectorResponse.SymptomSelector selector2 = new SymptomSelectorResponse.SymptomSelector();
+        selector2.setTitle("title1");
+        selector2.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues2 = new ArrayList<>();
+        issues2.add(new SymptomSelectorResponse.Issue());
+        selector2.setIssues(issues2);
+
+        SymptomSelectorResponse response2 = new SymptomSelectorResponse();
+        response2.setDevice(device2);
+        response2.setSymptomSelector(selector2);
+
+        // Verify that the two responses are equal
+        assertEquals(response1, response2);
+
+        // Verify that their hash codes are equal
+        assertEquals(response1.hashCode(), response2.hashCode());
+    }
+
+    @Test
+    public void testHashCodeAndEquals_NegativeScenario() {
+        SymptomSelectorResponse.Device device1 = new SymptomSelectorResponse.Device();
+        device1.setImageurl("image1");
+
+        SymptomSelectorResponse.SymptomSelector selector1 = new SymptomSelectorResponse.SymptomSelector();
+        selector1.setTitle("title1");
+        selector1.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues1 = new ArrayList<>();
+        issues1.add(new SymptomSelectorResponse.Issue());
+        selector1.setIssues(issues1);
+
+        SymptomSelectorResponse response1 = new SymptomSelectorResponse();
+        response1.setDevice(device1);
+        response1.setSymptomSelector(selector1);
+
+        SymptomSelectorResponse.Device device2 = new SymptomSelectorResponse.Device();
+        device2.setImageurl("image2"); // Different imageurl
+
+        SymptomSelectorResponse.SymptomSelector selector2 = new SymptomSelectorResponse.SymptomSelector();
+        selector2.setTitle("title2"); // Different title
+        selector2.setDescription("description2"); // Different description
+        List<SymptomSelectorResponse.Issue> issues2 = new ArrayList<>();
+        issues2.add(new SymptomSelectorResponse.Issue());
+        selector2.setIssues(issues2); // Different issues
+
+        SymptomSelectorResponse response2 = new SymptomSelectorResponse();
+        response2.setDevice(device2);
+        response2.setSymptomSelector(selector2);
+
+        // Verify that the two responses are not equal
+        assertNotEquals(response1, response2);
+
+        // Verify that their hash codes are not equal
+        assertNotEquals(response1.hashCode(), response2.hashCode());
+    }
+}
+
+
+
+
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SymptomSelectorResponseTest {
+
+    // Test for the Device class
+    @Test
+    public void testDevice_GettersAndSetters() {
+        SymptomSelectorResponse.Device device = new SymptomSelectorResponse.Device();
+        
+        // Set values using setters
+        device.setImageurl("image1");
+        
+        // Verify values using getters
+        assertEquals("image1", device.getImageurl());
+    }
+
+    @Test
+    public void testDevice_HashCodeAndEquals_PositiveScenario() {
+        SymptomSelectorResponse.Device device1 = new SymptomSelectorResponse.Device();
+        device1.setImageurl("image1");
+
+        SymptomSelectorResponse.Device device2 = new SymptomSelectorResponse.Device();
+        device2.setImageurl("image1");
+
+        // Verify that the two Device objects are equal
+        assertEquals(device1, device2);
+
+        // Verify that their hash codes are equal
+        assertEquals(device1.hashCode(), device2.hashCode());
+    }
+
+    @Test
+    public void testDevice_HashCodeAndEquals_NegativeScenario() {
+        SymptomSelectorResponse.Device device1 = new SymptomSelectorResponse.Device();
+        device1.setImageurl("image1");
+
+        SymptomSelectorResponse.Device device2 = new SymptomSelectorResponse.Device();
+        device2.setImageurl("image2"); // Different imageurl
+
+        // Verify that the two Device objects are not equal
+        assertNotEquals(device1, device2);
+
+        // Verify that their hash codes are not equal
+        assertNotEquals(device1.hashCode(), device2.hashCode());
+    }
+
+    // Test for the SymptomSelector class
+    @Test
+    public void testSymptomSelector_GettersAndSetters() {
+        SymptomSelectorResponse.SymptomSelector selector = new SymptomSelectorResponse.SymptomSelector();
+        
+        // Set values using setters
+        selector.setTitle("title1");
+        selector.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues = new ArrayList<>();
+        issues.add(new SymptomSelectorResponse.Issue());
+        selector.setIssues(issues);
+        
+        // Verify values using getters
+        assertEquals("title1", selector.getTitle());
+        assertEquals("description1", selector.getDescription());
+        assertEquals(issues, selector.getIssues());
+    }
+
+    @Test
+    public void testSymptomSelector_HashCodeAndEquals_PositiveScenario() {
+        SymptomSelectorResponse.SymptomSelector selector1 = new SymptomSelectorResponse.SymptomSelector();
+        selector1.setTitle("title1");
+        selector1.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues1 = new ArrayList<>();
+        issues1.add(new SymptomSelectorResponse.Issue());
+        selector1.setIssues(issues1);
+
+        SymptomSelectorResponse.SymptomSelector selector2 = new SymptomSelectorResponse.SymptomSelector();
+        selector2.setTitle("title1");
+        selector2.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues2 = new ArrayList<>();
+        issues2.add(new SymptomSelectorResponse.Issue());
+        selector2.setIssues(issues2);
+
+        // Verify that the two SymptomSelector objects are equal
+        assertEquals(selector1, selector2);
+
+        // Verify that their hash codes are equal
+        assertEquals(selector1.hashCode(), selector2.hashCode());
+    }
+
+    @Test
+    public void testSymptomSelector_HashCodeAndEquals_NegativeScenario() {
+        SymptomSelectorResponse.SymptomSelector selector1 = new SymptomSelectorResponse.SymptomSelector();
+        selector1.setTitle("title1");
+        selector1.setDescription("description1");
+        List<SymptomSelectorResponse.Issue> issues1 = new ArrayList<>();
+        issues1.add(new SymptomSelectorResponse.Issue());
+        selector1.setIssues(issues1);
+
+        SymptomSelectorResponse.SymptomSelector selector2 = new SymptomSelectorResponse.SymptomSelector();
+        selector2.setTitle("title2"); // Different title
+        selector2.setDescription("description2"); // Different description
+        List<SymptomSelectorResponse.Issue> issues2 = new ArrayList<>();
+        issues2.add(new SymptomSelectorResponse.Issue());
+        selector2.setIssues(issues2); // Different issues
+
+        // Verify that the two SymptomSelector objects are not equal
+        assertNotEquals(selector1, selector2);
+
+        // Verify that their hash codes are not equal
+        assertNotEquals(selector1.hashCode(), selector2.hashCode());
+    }
+
+    // Test for the Issue class
+    @Test
+    public void testIssue_GettersAndSetters() {
+        SymptomSelectorResponse.Issue issue = new SymptomSelectorResponse.Issue();
+        
+        // Set values using setters
+        issue.setSymptomId("id1");
+        issue.setSymptomName("name1");
+        issue.setNewUrl("newUrl1");
+        issue.setBauUrl("bauUrl1");
+        issue.setRedirect(true);
+        
+        // Verify values using getters
+        assertEquals("id1", issue.getSymptomId());
+        assertEquals("name1", issue.getSymptomName());
+        assertEquals("newUrl1", issue.getNewUrl());
+        assertEquals("bauUrl1", issue.getBauUrl());
+        assertTrue(issue.isRedirect());
+    }
+
+    @Test
+    public void testIssue_HashCodeAndEquals_PositiveScenario() {
+        SymptomSelectorResponse.Issue issue1 = new SymptomSelectorResponse.Issue();
+        issue1.setSymptomId("id1");
+        issue1.setSymptomName("name1");
+        issue1.setNewUrl("newUrl1");
+        issue1.setBauUrl("bauUrl1");
+        issue1.setRedirect(true);
+
+        SymptomSelectorResponse.Issue issue2 = new SymptomSelectorResponse.Issue();
+        issue2.setSymptomId("id1");
+        issue2.setSymptomName("name1");
+        issue2.setNewUrl("newUrl1");
+        issue2.setBauUrl("bauUrl1");
+        issue2.setRedirect(true);
+
+        // Verify that the two Issue objects are equal
+        assertEquals(issue1, issue2);
+
+        // Verify that their hash codes are equal
+        assertEquals(issue1.hashCode(), issue2.hashCode());
+    }
+
+    @Test
+    public void testIssue_HashCodeAndEquals_NegativeScenario() {
+        SymptomSelectorResponse.Issue issue1 = new SymptomSelectorResponse.Issue();
+        issue1.setSymptomId("id1");
+        issue1.setSymptomName("name1");
+        issue1.setNewUrl("newUrl1");
+        issue1.setBauUrl("bauUrl1");
+        issue1.setRedirect(true);
+
+        SymptomSelectorResponse.Issue issue2 = new SymptomSelectorResponse.Issue();
+        issue2.setSymptomId("id2"); // Different symptomId
+        issue2.setSymptomName("name2"); // Different symptomName
+        issue2.setNewUrl("newUrl2"); // Different newUrl
+        issue2.setBauUrl("bauUrl2"); // Different bauUrl
+        issue2.setRedirect(false); // Different redirect
+
+        // Verify that the two Issue objects are not equal
+        assertNotEquals(issue1, issue2);
+
+        // Verify that their hash codes are not equal
+        assertNotEquals(issue1.hashCode(), issue2.hashCode());
+    }
+}
