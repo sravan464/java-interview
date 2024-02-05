@@ -235,3 +235,113 @@ class IssueTest {
         assertNotEquals(resp1, resp2);
         assertNotEquals(resp1.hashCode(), resp2.hashCode());
     }
+
+
+
+
+--------------
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class DdataTest {
+
+    @Test
+    public void testEqualsAndHashCode() {
+        SymptomSelectorResp.Ddata ddata1 = new SymptomSelectorResp.Ddata();
+        ddata1.setStatusCode(200);
+        ddata1.setStatusMessage("OK");
+
+        SymptomSelectorResp.Ddata ddata2 = new SymptomSelectorResp.Ddata();
+        ddata2.setStatusCode(200);
+        ddata2.setStatusMessage("OK");
+
+        // Check equality
+        assertEquals(ddata1, ddata2);
+        assertEquals(ddata1.hashCode(), ddata2.hashCode());
+
+        // Change a field and check inequality
+        ddata2.setStatusCode(404);
+        assertNotEquals(ddata1, ddata2);
+        assertNotEquals(ddata1.hashCode(), ddata2.hashCode());
+    }
+}
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class DeviceTest {
+
+    @Test
+    public void testEqualsAndHashCode() {
+        SymptomSelectorResp.Device device1 = new SymptomSelectorResp.Device();
+        device1.setImageUrl("image.jpg");
+        device1.setDeviceSku("SKU123");
+
+        SymptomSelectorResp.Device device2 = new SymptomSelectorResp.Device();
+        device2.setImageUrl("image.jpg");
+        device2.setDeviceSku("SKU123");
+
+        // Check equality
+        assertEquals(device1, device2);
+        assertEquals(device1.hashCode(), device2.hashCode());
+
+        // Change a field and check inequality
+        device2.setImageUrl("new_image.jpg");
+        assertNotEquals(device1, device2);
+        assertNotEquals(device1.hashCode(), device2.hashCode());
+    }
+}
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class IssueTest {
+
+    @Test
+    public void testEqualsAndHashCode() {
+        SymptomSelectorResp.Issue issue1 = new SymptomSelectorResp.Issue();
+        issue1.setSymptomId("123");
+        issue1.setIssueName("Issue 1");
+
+        SymptomSelectorResp.Issue issue2 = new SymptomSelectorResp.Issue();
+        issue2.setSymptomId("123");
+        issue2.setIssueName("Issue 1");
+
+        // Check equality
+        assertEquals(issue1, issue2);
+        assertEquals(issue1.hashCode(), issue2.hashCode());
+
+        // Change a field and check inequality
+        issue2.setSymptomId("456");
+        assertNotEquals(issue1, issue2);
+        assertNotEquals(issue1.hashCode(), issue2.hashCode());
+    }
+}
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class SymptomSelectorTest {
+
+    @Test
+    public void testEqualsAndHashCode() {
+        SymptomSelectorResp.SymptomSelector selector1 = new SymptomSelectorResp.SymptomSelector();
+        selector1.setTitle("Title 1");
+        selector1.setDescription("Description 1");
+
+        SymptomSelectorResp.SymptomSelector selector2 = new SymptomSelectorResp.SymptomSelector();
+        selector2.setTitle("Title 1");
+        selector2.setDescription("Description 1");
+
+        // Check equality
+        assertEquals(selector1, selector2);
+        assertEquals(selector1.hashCode(), selector2.hashCode());
+
+        // Change a field and check inequality
+        selector2.setTitle("Title 2");
+        assertNotEquals(selector1, selector2);
+        assertNotEquals(selector1.hashCode(), selector2.hashCode());
+    }
+}
