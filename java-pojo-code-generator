@@ -1,0 +1,79 @@
+Java random values generator for tets cases:
+
+import java.lang.reflect.Field;
+
+public class CodeGeneratorForTesting {
+
+    public static void main(String[] args) {
+        // Replace 'YourClass.class' with the actual class object you want to generate for.
+        generateTestCode(YourClass.class);
+    }
+
+    public static void generateTestCode(Class<?> clazz) {
+        StringBuilder constructorWithArgs = new StringBuilder();
+        StringBuilder setters = new StringBuilder();
+
+        constructorWithArgs.append(clazz.getSimpleName()).append(" yourClass = new ")
+                .append(clazz.getSimpleName()).append("(");
+
+        setters.append(clazz.getSimpleName()).append(" yourClass = new ")
+                .append(clazz.getSimpleName()).append("();\n");
+
+        Field[] fields = clazz.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            String fieldName = field.getName();
+            Object sampleValue = getSampleValue(field.getType());
+
+            // Append arguments for the constructor
+            constructorWithArgs.append(sampleValue);
+            if (i < fields.length - 1) {
+                constructorWithArgs.append(", ");
+            }
+
+            // Generate setters
+            setters.append("yourClass.set").append(capitalize(fieldName))
+                    .append("(").append(sampleValue).append(");\n");
+        }
+
+        // Close the constructor call
+        constructorWithArgs.append(");\n");
+
+        // Output the generated code
+        System.out.println(constructorWithArgs.toString());
+        System.out.println(setters.toString());
+    }
+
+    private static String capitalize(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
+    private static Object getSampleValue(Class<?> type) {
+        // You can add more types and sample values as needed
+        if (type.equals(int.class) || type.equals(Integer.class)) {
+            return 123;
+        } else if (type.equals(double.class) || type.equals(Double.class)) {
+            return 0.0;
+        } else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+            return true;
+        } else if (type.equals(String.class)) {
+            return "\"testName\"";
+        }
+        return "null"; // default sample value
+    }
+}
+
+
+
+class YourClass {
+    // Sample fields
+    private int number;
+    private double amount;
+    private String name;
+    private boolean isActive;
+
+    // Getters and Setters...
+}
