@@ -22,3 +22,94 @@ public class SymptomSelectorResponse {
 		boolean redirect;
 	}
 }
+
+
+
+
+@Data
+@Builder
+public class TroubleshootingViraConfig {
+	
+	boolean redirectToNSA;
+	ExternalRequest caseDetails;
+	String channelId;
+	String _dg_channelId;
+	SymptomSelectorResp troubleShootingJson;
+	@JsonProperty("isLoggedOut")
+	boolean isLoggedOut;
+}
+
+
+@Data
+public class SymptomSelectorResp {
+
+	Ddata ddata;
+	Boolean showErrorOnEmptyDesc;
+	
+	@Data
+	public static class Ddata {
+		Integer statusCode;
+		String statusMessage;
+		Device device;
+		SymptomSelector symptomSelector;
+	}
+	
+	@Data
+	public static class Device {
+		String imageUrl;
+		String deviceSku;
+		String equipmentId;
+		String deviceName;
+		String soeUrl;
+		String bauSearchUrl;
+		Boolean is5GDevice;
+		String deviceType;
+		String deviceSelectorUrl;
+		String deviceId;
+	}
+	@Data
+	public static class SymptomSelector {
+		String title;
+		String description;
+		List<Issue> issues;
+	}
+	@Data
+	public static class Issue {
+		String symptomId;
+		String issueName;
+		String newUrl;
+		String bauUrl;
+		boolean redirect;
+	}
+}
+
+
+@Data
+public class ExternalRequest {
+
+private String appID;
+private String channel;
+private String offlineUser;
+private String tier;
+private String mdn;
+private String tsrID;
+private String tsrAction;
+private String tsrCreateDate;
+private String token;
+private String frontEndSessionID;
+private String customerVerified;
+private String customerOnDevice;
+private String networkOutageImpact;
+private String mtn;
+private String intentId;
+private String intent;
+private String caseId;
+private String processStep;
+private String processAction;
+private String deviceSku;
+private String equipmentId;
+private String mtnId;
+private String changeIssueUrl;
+private String accountNumber;
+private boolean microsite;
+}
