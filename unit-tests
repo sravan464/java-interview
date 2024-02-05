@@ -215,3 +215,23 @@ class IssueTest {
         assertNotNull(issue.toString());
     }
 }
+-----------
+@Test
+    public void testEqualsAndHashCode() {
+        SymptomSelectorResp resp1 = new SymptomSelectorResp();
+        resp1.setDdata(new SymptomSelectorResp.Ddata());
+        resp1.setShowErrorOnEmptyDesc(true);
+
+        SymptomSelectorResp resp2 = new SymptomSelectorResp();
+        resp2.setDdata(new SymptomSelectorResp.Ddata());
+        resp2.setShowErrorOnEmptyDesc(true);
+
+        // Check equality
+        assertEquals(resp1, resp2);
+        assertEquals(resp1.hashCode(), resp2.hashCode());
+
+        // Change a field and check inequality
+        resp2.setShowErrorOnEmptyDesc(false);
+        assertNotEquals(resp1, resp2);
+        assertNotEquals(resp1.hashCode(), resp2.hashCode());
+    }
