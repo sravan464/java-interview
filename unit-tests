@@ -629,3 +629,106 @@ public class SymptomSelectorResponseTest {
         assertNotEquals(issue1.hashCode(), issue2.hashCode());
     }
 }
+ +++++++++++++
+
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TroubleshootingViraConfigTest {
+
+    @Test
+    public void testGettersAndSetters() {
+        TroubleshootingViraConfig config = new TroubleshootingViraConfig();
+        
+        // Set values using setters
+        config.setRedirectToNSA(true);
+        config.setCaseDetails(new ExternalRequest());
+        config.setChannelId("channelId");
+        config.set_dg_channelId("_dg_channelId");
+        config.setTroubleShootingJson(new SymptomSelectorResp());
+        config.setIsLoggedOut(true);
+        
+        // Verify values using getters
+        assertTrue(config.isRedirectToNSA());
+        assertNotNull(config.getCaseDetails());
+        assertEquals("channelId", config.getChannelId());
+        assertEquals("_dg_channelId", config.get_dg_channelId());
+        assertNotNull(config.getTroubleShootingJson());
+        assertTrue(config.isIsLoggedOut());
+    }
+
+    @Test
+    public void testHashCodeAndEquals_PositiveScenario() {
+        TroubleshootingViraConfig config1 = TroubleshootingViraConfig.builder()
+            .redirectToNSA(true)
+            .caseDetails(new ExternalRequest())
+            .channelId("channelId")
+            ._dg_channelId("_dg_channelId")
+            .troubleShootingJson(new SymptomSelectorResp())
+            .isLoggedOut(true)
+            .build();
+
+        TroubleshootingViraConfig config2 = TroubleshootingViraConfig.builder()
+            .redirectToNSA(true)
+            .caseDetails(new ExternalRequest())
+            .channelId("channelId")
+            ._dg_channelId("_dg_channelId")
+            .troubleShootingJson(new SymptomSelectorResp())
+            .isLoggedOut(true)
+            .build();
+
+        // Verify that the two TroubleshootingViraConfig objects are equal
+        assertEquals(config1, config2);
+
+        // Verify that their hash codes are equal
+        assertEquals(config1.hashCode(), config2.hashCode());
+    }
+
+    @Test
+    public void testHashCodeAndEquals_NegativeScenario() {
+        TroubleshootingViraConfig config1 = TroubleshootingViraConfig.builder()
+            .redirectToNSA(true)
+            .caseDetails(new ExternalRequest())
+            .channelId("channelId")
+            ._dg_channelId("_dg_channelId")
+            .troubleShootingJson(new SymptomSelectorResp())
+            .isLoggedOut(true)
+            .build();
+
+        TroubleshootingViraConfig config2 = TroubleshootingViraConfig.builder()
+            .redirectToNSA(false) // Different value
+            .caseDetails(new ExternalRequest())
+            .channelId("channelId")
+            ._dg_channelId("_dg_channelId")
+            .troubleShootingJson(new SymptomSelectorResp())
+            .isLoggedOut(true)
+            .build();
+
+        // Verify that the two TroubleshootingViraConfig objects are not equal
+        assertNotEquals(config1, config2);
+
+        // Verify that their hash codes are not equal
+        assertNotEquals(config1.hashCode(), config2.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        TroubleshootingViraConfig config = TroubleshootingViraConfig.builder()
+            .redirectToNSA(true)
+            .caseDetails(new ExternalRequest())
+            .channelId("channelId")
+            ._dg_channelId("_dg_channelId")
+            .troubleShootingJson(new SymptomSelectorResp())
+            .isLoggedOut(true)
+            .build();
+
+        // Verify that the toString method does not throw exceptions
+        assertNotNull(config.toString());
+    }
+}
