@@ -1,29 +1,34 @@
-Java random values generator for tets cases:
-
+// Java random values generator for tets cases:
+// ------------------------------------------
 import java.lang.reflect.Field;
 
 public class CodeGeneratorForTesting {
 
+    private static int intValue = 0;
+    private static double doubleValue = 0.0;
+    private static float floatValue = 0.0f;
+
     public static void main(String[] args) {
         // Replace 'YourClass.class' with the actual class object you want to generate for.
-        generateTestCode(YourClass.class);
+        generateTestCode(DeadClass.class);
     }
 
     public static void generateTestCode(Class<?> clazz) {
+        String classNameLower = clazz.getSimpleName().substring(0, 1).toLowerCase() + clazz.getSimpleName().substring(1);
         StringBuilder constructorWithArgs = new StringBuilder();
         StringBuilder setters = new StringBuilder();
 
-        constructorWithArgs.append(clazz.getSimpleName()).append(" yourClass = new ")
+        constructorWithArgs.append(clazz.getSimpleName()).append(" ").append(classNameLower).append(" = new ")
                 .append(clazz.getSimpleName()).append("(");
 
-        setters.append(clazz.getSimpleName()).append(" yourClass = new ")
+        setters.append(clazz.getSimpleName()).append(" ").append(classNameLower).append(" = new ")
                 .append(clazz.getSimpleName()).append("();\n");
 
         Field[] fields = clazz.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
             String fieldName = field.getName();
-            Object sampleValue = getSampleValue(field.getType());
+            Object sampleValue = getSampleValue(field.getType(), fieldName);
 
             // Append arguments for the constructor
             constructorWithArgs.append(sampleValue);
@@ -32,7 +37,7 @@ public class CodeGeneratorForTesting {
             }
 
             // Generate setters
-            setters.append("yourClass.set").append(capitalize(fieldName))
+            setters.append(classNameLower).append(".set").append(capitalize(fieldName))
                     .append("(").append(sampleValue).append(");\n");
         }
 
@@ -51,28 +56,31 @@ public class CodeGeneratorForTesting {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    private static Object getSampleValue(Class<?> type) {
-        // You can add more types and sample values as needed
+    private static Object getSampleValue(Class<?> type, String fieldName) {
+        // Incremental values for numeric types
         if (type.equals(int.class) || type.equals(Integer.class)) {
-            return 123;
+            return ++intValue;
         } else if (type.equals(double.class) || type.equals(Double.class)) {
-            return 0.0;
+            return String.format("%.1f", ++doubleValue);
+        } else if (type.equals(float.class) || type.equals(Float.class)) {
+            return String.format("%.1f", ++floatValue) + "f";
         } else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
-            return true;
+            return true; // Consider alternating between true and false
         } else if (type.equals(String.class)) {
-            return "\"testName\"";
+            return "\"" + fieldName + "_Value\"";
         }
-        return "null"; // default sample value
+        // Extend this to handle other types as needed
+        return "null"; // default sample value for unsupported types
     }
 }
 
-
-
-class YourClass {
+class DeadClass {
     // Sample fields
     private int number;
+    private int id;    
     private double amount;
-    private String name;
+    private String fruit;
+    private String person;
     private boolean isActive;
 
     // Getters and Setters...
