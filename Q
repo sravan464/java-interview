@@ -1,0 +1,24 @@
+@Data
+public class SymptomSelectorResponse {
+	Device device;
+	SymptomSelector symptomSelector;
+	
+	@Data
+	public static class Device {
+		String imageurl;
+	}
+	@Data
+	public static class SymptomSelector {
+		String title;
+		String description;
+		List<Issue> issues;
+	}
+	@Data
+	public static class Issue {
+		String symptomId;
+		String symptomName;
+		String newUrl;
+		String bauUrl;
+		boolean redirect;
+	}
+}
