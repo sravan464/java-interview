@@ -1,0 +1,106 @@
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CodeGeneratorForTesting {
+
+    private static int intValue = 0;
+    private static double doubleValue = 0.0;
+    private static float floatValue = 0.0f;
+
+    public static void main(String[] args) {
+        generateTestCode(DeadClass.class);
+    }
+
+    public static void generateTestCode(Class<?> clazz) {
+        StringBuilder code = new StringBuilder();
+        code.append(generateInstanceWithValues(clazz, clazz.getSimpleName().toLowerCase()));
+        System.out.println(code);
+    }
+
+    private static String generateInstanceWithValues(Class<?> clazz, String instanceName) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(clazz.getSimpleName()).append(" ").append(instanceName).append(" = new ")
+                .append(clazz.getSimpleName()).append("();\n");
+
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            Object sampleValue = getSampleValue(field, fieldName);
+
+            // Handle List<T>
+            if (List.class.isAssignableFrom(field.getType())) {
+                Type genericFieldType = field.getGenericType();
+                if (genericFieldType instanceof ParameterizedType) {
+                    ParameterizedType aType = (ParameterizedType) genericFieldType;
+                    Type[] fieldArgTypes = aType.getActualTypeArguments();
+                    Class<?> fieldArgClass = (Class<?>) fieldArgTypes[0];
+                    builder.append(generateListWithValues(fieldArgClass, instanceName + capitalize(fieldName), 2)); // Example with 2 elements
+                }
+            } else if (!field.getType().isPrimitive() && !field.getType().equals(String.class)) {
+                builder.append(generateInstanceWithValues(field.getType(), fieldName));
+            }
+
+            builder.append(instanceName).append(".set").append(capitalize(fieldName))
+                    .append("(").append(sampleValue).append(");\n");
+        }
+
+        return builder.toString();
+    }
+
+    private static String generateListWithValues(Class<?> elementType, String listName, int numElements) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("List<").append(elementType.getSimpleName()).append("> ").append(listName).append(" = new ArrayList<>();\n");
+        for (int i = 0; i < numElements; i++) {
+            String elementName = elementType.getSimpleName().toLowerCase() + i;
+            builder.append(generateInstanceWithValues(elementType, elementName));
+            builder.append(listName).append(".add(").append(elementName).append(");\n");
+        }
+        return builder.toString();
+    }
+
+    private static String capitalize(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
+    private static Object getSampleValue(Field field, String fieldName) {
+        Class<?> type = field.getType();
+        if (List.class.isAssignableFrom(type)) {
+            return fieldName; // Return list name for setter
+        } else if (type.equals(int.class) || type.equals(Integer.class)) {
+            return ++intValue;
+        } else if (type.equals(double.class) || type.equals(Double.class)) {
+            return String.format("%.1f", ++doubleValue);
+        } else if (type.equals(float.class) || type.equals(Float.class)) {
+            return String.format("%.1f", ++floatValue) + "f";
+        } else if (type.equals(boolean.class) || type.equals(Boolean.class)) {
+            return true;
+        } else if (type.equals(String.class)) {
+            return "\"" + fieldName + "_Value\"";
+        } else { // Custom object type
+            return "new " + type.getSimpleName() + "()"; // Placeholder, actual object creation is handled separately
+        }
+    }
+}
+
+class DeadClass {
+    private List<Person> people;
+    private int number;
+    private double amount;
+    private String fruit;
+    private boolean isActive;
+
+    // Getters and Setters...
+}
+
+class Person {
+    private String name;
+    private int age;
+
+    // Getters and Setters...
+}
