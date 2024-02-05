@@ -1,0 +1,217 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class SymptomSelectorRespTest {
+
+    @Test
+    void testGettersAndSetters() {
+        SymptomSelectorResp resp = new SymptomSelectorResp();
+        SymptomSelectorResp.Ddata ddata = new SymptomSelectorResp.Ddata();
+        resp.setDdata(ddata);
+        resp.setShowErrorOnEmptyDesc(true);
+
+        assertEquals(ddata, resp.getDdata());
+        assertTrue(resp.getShowErrorOnEmptyDesc());
+    }
+
+    @Test
+    void testEquals() {
+        SymptomSelectorResp resp1 = new SymptomSelectorResp();
+        SymptomSelectorResp resp2 = new SymptomSelectorResp();
+
+        assertEquals(resp1, resp2); // Both are empty and should be equal
+
+        SymptomSelectorResp.Ddata ddata = new SymptomSelectorResp.Ddata();
+        resp1.setDdata(ddata);
+
+        assertNotEquals(resp1, resp2); // They should now be different
+    }
+
+    @Test
+    void testHashCode() {
+        SymptomSelectorResp resp1 = new SymptomSelectorResp();
+        SymptomSelectorResp resp2 = new SymptomSelectorResp();
+
+        assertEquals(resp1.hashCode(), resp2.hashCode()); // Both are empty and should have the same hashcode
+
+        SymptomSelectorResp.Ddata ddata = new SymptomSelectorResp.Ddata();
+        resp1.setDdata(ddata);
+
+        assertNotEquals(resp1.hashCode(), resp2.hashCode()); // Hashcodes should now be different
+    }
+
+    @Test
+    void testToString() {
+        SymptomSelectorResp resp = new SymptomSelectorResp();
+        assertNotNull(resp.toString()); // Ensure toString() is not returning null
+    }
+}
+
+
+-------------------
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class DdataTest {
+
+    @Test
+    void testGettersAndSetters() {
+        SymptomSelectorResp.Ddata ddata = new SymptomSelectorResp.Ddata();
+        ddata.setStatusCode(200);
+        ddata.setStatusMessage("OK");
+
+        assertEquals(200, ddata.getStatusCode());
+        assertEquals("OK", ddata.getStatusMessage());
+    }
+
+    @Test
+    void testEquals() {
+        SymptomSelectorResp.Ddata ddata1 = new SymptomSelectorResp.Ddata();
+        SymptomSelectorResp.Ddata ddata2 = new SymptomSelectorResp.Ddata();
+
+        assertEquals(ddata1, ddata2); // Both are empty and should be equal
+
+        ddata1.setStatusCode(200);
+
+        assertNotEquals(ddata1, ddata2); // They should now be different
+    }
+
+    @Test
+    void testHashCode() {
+        SymptomSelectorResp.Ddata ddata1 = new SymptomSelectorResp.Ddata();
+        SymptomSelectorResp.Ddata ddata2 = new SymptomSelectorResp.Ddata();
+
+        assertEquals(ddata1.hashCode(), ddata2.hashCode()); // Both are empty and should have the same hashcode
+
+        ddata1.setStatusCode(200);
+
+        assertNotEquals(ddata1.hashCode(), ddata2.hashCode()); // Hashcodes should now be different
+    }
+
+    @Test
+    void testToString() {
+        SymptomSelectorResp.Ddata ddata = new SymptomSelectorResp.Ddata();
+        assertNotNull(ddata.toString()); // Ensure toString() is not returning null
+    }
+}
+----------------------------
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class DeviceTest {
+
+    @Test
+    void testGettersAndSetters() {
+        SymptomSelectorResp.Device device = new SymptomSelectorResp.Device();
+        device.setImageUrl("http://example.com/image.jpg");
+        device.setDeviceSku("SKU123");
+        // Set other fields similarly...
+
+        assertEquals("http://example.com/image.jpg", device.getImageUrl());
+        assertEquals("SKU123", device.getDeviceSku());
+        // Assert other fields similarly...
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        SymptomSelectorResp.Device device1 = new SymptomSelectorResp.Device();
+        SymptomSelectorResp.Device device2 = new SymptomSelectorResp.Device();
+
+        assertEquals(device1, device2);
+        assertEquals(device1.hashCode(), device2.hashCode());
+
+        device1.setImageUrl("http://example.com/image.jpg");
+
+        assertNotEquals(device1, device2);
+        assertNotEquals(device1.hashCode(), device2.hashCode());
+    }
+
+    @Test
+    void testToString() {
+        SymptomSelectorResp.Device device = new SymptomSelectorResp.Device();
+        assertNotNull(device.toString());
+    }
+}
+
+------------------
+
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
+
+class SymptomSelectorTest {
+
+    @Test
+    void testGettersAndSetters() {
+        SymptomSelectorResp.SymptomSelector selector = new SymptomSelectorResp.SymptomSelector();
+        selector.setTitle("Title");
+        selector.setDescription("Description");
+        selector.setIssues(new ArrayList<>());
+
+        assertEquals("Title", selector.getTitle());
+        assertEquals("Description", selector.getDescription());
+        assertNotNull(selector.getIssues());
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        SymptomSelectorResp.SymptomSelector selector1 = new SymptomSelectorResp.SymptomSelector();
+        SymptomSelectorResp.SymptomSelector selector2 = new SymptomSelectorResp.SymptomSelector();
+
+        assertEquals(selector1, selector2);
+        assertEquals(selector1.hashCode(), selector2.hashCode());
+
+        selector1.setTitle("Title");
+
+        assertNotEquals(selector1, selector2);
+        assertNotEquals(selector1.hashCode(), selector2.hashCode());
+    }
+
+    @Test
+    void testToString() {
+        SymptomSelectorResp.SymptomSelector selector = new SymptomSelectorResp.SymptomSelector();
+        assertNotNull(selector.toString());
+    }
+}
+
+-------------
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class IssueTest {
+
+    @Test
+    void testGettersAndSetters() {
+        SymptomSelectorResp.Issue issue = new SymptomSelectorResp.Issue();
+        issue.setSymptomId("ID123");
+        issue.setIssueName("IssueName");
+        // Set other fields similarly...
+
+        assertEquals("ID123", issue.getSymptomId());
+        assertEquals("IssueName", issue.getIssueName());
+        // Assert other fields similarly...
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        SymptomSelectorResp.Issue issue1 = new SymptomSelectorResp.Issue();
+        SymptomSelectorResp.Issue issue2 = new SymptomSelectorResp.Issue();
+
+        assertEquals(issue1, issue2);
+        assertEquals(issue1.hashCode(), issue2.hashCode());
+
+        issue1.setSymptomId("ID123");
+
+        assertNotEquals(issue1, issue2);
+        assertNotEquals(issue1.hashCode(), issue2.hashCode());
+    }
+
+    @Test
+    void testToString() {
+        SymptomSelectorResp.Issue issue = new SymptomSelectorResp.Issue();
+        assertNotNull(issue.toString());
+    }
+}
