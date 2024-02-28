@@ -1,3 +1,13 @@
+how to improve the sql wuery performance:
+1) indexing 
+2) removing subwueries 
+3) limiting the no of records by where and group by
+4) not using select * 
+5) avoiding wild cards
+6) using sql proxies (sql proxy is layer between app and sql DB like cache)
+
+
+
 *************************************** CORE JAVA INTERVIEW QUESTIONS AND LINKS ******************************************
 JAVA 1.5 FEATURES:
 -Autoboxing And Auto-Unboxing 
