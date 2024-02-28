@@ -5,6 +5,9 @@ how to improve the sql wuery performance:
 4) not using select * 
 5) avoiding wild cards
 6) using sql proxies (sql proxy is layer between app and sql DB like cache)
+7) matirialized view
+8) stored procedures(not sure about this)
+9) @@boost_cached_queries = 1 
 
 
 
